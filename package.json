@@ -1,0 +1,23 @@
+{
+  "name": "temp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "workspaces": [
+    "apps/*"
+  ],
+  "private": "true",
+  "devDependencies": {
+    "prettier": "^3.9.4"
+  }
+}
