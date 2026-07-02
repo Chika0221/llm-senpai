@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, Message, Partials } from 'discord.js';
+import "../env.js"
 
 export const discordClient = new Client({
   intents: [
@@ -14,6 +15,7 @@ discordClient.on('ready', () => {
 });
 
 import { db } from '../lib/db.js';
+import { DISCORD_CHANNEL_ID, DISCORD_TOKEN } from '../env.js';
 
 // メッセージを受信したときの処理
 discordClient.on('messageCreate', async (message: Message) => {
@@ -79,8 +81,9 @@ discordClient.on('messageCreate', async (message: Message) => {
 
 // 初期化関数
 export const initDiscordBot = async () => {
-  const token = process.env.DISCORD_TOKEN;
-  if (!token || token === 'YOUR_DISCORD_BOT_TOKEN_HERE') {
+  const token = DISCORD_TOKEN;
+  if (!token || String(token) === 'YOUR_DISCORD_BOT_TOKEN_HERE') {
+    console.log('わわわ : ', token);
     console.warn('⚠️ DISCORD_TOKEN is not set or invalid. Skipping Discord Bot initialization.');
     return;
   }
@@ -94,7 +97,7 @@ export const initDiscordBot = async () => {
 
 // 先輩へ質問を送信する関数（APIルートから呼ばれる）
 export const askSenpai = async (question: string, sessionId: string) => {
-  const channelId = process.env.DISCORD_CHANNEL_ID;
+  const channelId = DISCORD_CHANNEL_ID;
   if (!channelId) {
     console.error('❌ DISCORD_CHANNEL_ID is not set in .env');
     return null;
