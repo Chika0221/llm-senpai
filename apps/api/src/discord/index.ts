@@ -13,32 +13,67 @@ discordClient.on('ready', () => {
   console.log(`🤖 Discord Bot is ready! Logged in as ${discordClient.user?.tag}`);
 });
 
+import { db } from '../lib/db.js';
+
 // メッセージを受信したときの処理
 discordClient.on('messageCreate', async (message: Message) => {
   // Bot自身のメッセージは無視する
   if (message.author.bot) return;
 
-  console.log(`[Discord] Received message from ${message.author.username}: ${message.content}`);
+  // このメッセージがスレッド内で送信されたものか確認し、DBからセッションを探す
+  const session = await db.session.findUnique({
+    where: { discordThreadId: message.channel.id }
+  });
 
-  // TODO: リプライ元のメッセージからSessionIDを特定する処理（後で実装）
-  
+  if (!session) {
+    // セッションに紐付かないスレッドやチャンネルの会話は無視する
+    return;
+  }
+
+  console.log(`[Discord] Received message from ${message.author.username} in session ${session.id}`);
+
   // PowerShellのコードブロックが含まれているかチェック
-  // 例: ```powershell\nGet-ChildItem\n``` または ```pwsh\n...
   const pwshMatch = message.content.match(/```(?:powershell|pwsh)\n([\s\S]*?)```/i);
   
   if (pwshMatch) {
     const command = pwshMatch[1].trim();
     console.log(`[Discord] 🔧 Detected PowerShell Tool Call: ${command}`);
     
-    // TODO: ここでDBのSessionステータスをEXECUTINGに更新し、
-    // API側（SSE待機ループ）へ「Tool Callとして返却する」通知を送る
-    
-    // 返信例（実際にはAPIを通じてCursor等に返されるため不要ですが、デバッグ用に残します）
-    // await message.reply(`⏳ コマンドを実行します: \`${command}\``);
+    // DBにTool CallとしてMessageを保存し、セッションをEXECUTINGに変更
+    await db.$transaction([
+      db.message.create({
+        data: {
+          sessionId: session.id,
+          role: 'ASSISTANT',
+          content: command,
+          commandName: 'run_powershell',
+          toolCallId: `call_${Date.now()}`,
+          discordMessageId: message.id,
+        }
+      }),
+      db.session.update({
+        where: { id: session.id },
+        data: { status: 'EXECUTING' }
+      })
+    ]);
   } else {
     console.log(`[Discord] 💬 Detected normal text reply`);
     
-    // TODO: 通常のテキスト回答としてAPI側へ返し、ステータスをREPLIEDに更新する処理
+    // DBに通常のテキスト回答としてMessageを保存し、セッションをREPLIEDに変更
+    await db.$transaction([
+      db.message.create({
+        data: {
+          sessionId: session.id,
+          role: 'ASSISTANT',
+          content: message.content,
+          discordMessageId: message.id,
+        }
+      }),
+      db.session.update({
+        where: { id: session.id },
+        data: { status: 'REPLIED' }
+      })
+    ]);
   }
 });
 
