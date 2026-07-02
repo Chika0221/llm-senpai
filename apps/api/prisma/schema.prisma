@@ -1,13 +1,55 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+datasource db {
+  provider = "sqlite"
+}
 
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
-datasource db {
-  provider = "postgresql"
+enum RequestSource {
+  WEB
+  API
+}
+
+enum SessionStatus {
+  OPEN         // セッション進行中（やり取り中）
+  WAITING      // 先輩の返答待ち
+  EXECUTING    // 後輩のシェルでコマンド実行中（結果待ち）
+  COMPLETED    // 解決済み（終了）
+  ERROR
+}
+
+enum MessageRole {
+  USER         // 後輩（ユーザー）
+  ASSISTANT    // 先輩（AIのフリ）
+  TOOL         // コマンド実行結果
+}
+
+// 1つの質問・会話の単位（Discordのスレッドに対応）
+model Session {
+  id               String        @id @default(uuid())
+  source           RequestSource
+  discordThreadId  String?       @unique // DiscordのスレッドID
+  status           SessionStatus @default(OPEN)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  messages         Message[]     // 履歴
+}
+
+// やり取りされる個々のメッセージやコマンド実行ログ
+model Message {
+  id               String      @id @default(uuid())
+  sessionId        String
+  session          Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role             MessageRole 
+  content          String      // テキスト内容、またはコマンド出力結果
+  
+  // コマンド実行用（Tool Calls）のフィールド
+  toolCallId       String?     // どのツール呼び出しに対する結果か
+  commandName      String?     // 実行したコマンド名（例: "run_powershell"）
+
+  discordMessageId String?     @unique // Discord側のメッセージID
+  createdAt        DateTime    @default(now())
 }
