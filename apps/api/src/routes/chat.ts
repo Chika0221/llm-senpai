@@ -13,61 +13,65 @@ chatRouter.post('/completions', async (c) => {
   const messages = body.messages || [];
   const latestMessage = messages[messages.length - 1]?.content || 'No message provided';
 
-  // 1. DBにセッションを作成
-  const session = await db.session.create({
-    data: {
-      source: 'API',
-      status: 'WAITING',
-      messages: {
-        create: {
-          role: 'USER',
-          content: latestMessage,
-        }
-      }
-    }
-  });
-  console.log(`[API] Created DB session: ${session.id}`);
-
-  // 2. Discordの先輩へ質問を送信
-  const discordInfo = await askSenpai(latestMessage, session.id);
-  if (discordInfo) {
-    // Discordへ送信できたらメッセージID等を保存
-    await db.session.update({
-      where: { id: session.id },
-      data: { discordThreadId: discordInfo.threadId }
-    });
-  }
-
-  // 3. Server-Sent Events (SSE) でストリーム応答を開始し、待機ループへ
+  // 1. Server-Sent Events (SSE) でストリーム応答をすぐに開始
   return streamSSE(c, async (stream) => {
     console.log('[API] Started SSE stream...');
+    const streamId = `chatcmpl-${Date.now()}`;
+    const createdTime = Math.floor(Date.now() / 1000);
+    const reqModel = body.model || 'senpai-model';
 
-    // 1. Send an initial chunk indicating that processing has started
+    // 2. 最初に「考え中...」というメッセージを送信
     await stream.writeSSE({
       data: JSON.stringify({
-        id: `chatcmpl-${Date.now()}`,
+        id: streamId,
         object: 'chat.completion.chunk',
-        created: Math.floor(Date.now() / 1000),
-        model: body.model || 'senpai-model',
-        choices: [{ index: 0, delta: { role: 'assistant', content: '' } }],
+        created: createdTime,
+        model: reqModel,
+        choices: [{ index: 0, delta: { role: 'assistant', content: '考え中...\n' }, finish_reason: null }],
       }),
     });
+
+    // 3. DBにセッションを作成
+    const session = await db.session.create({
+      data: {
+        source: 'API',
+        status: 'WAITING',
+        messages: {
+          create: {
+            role: 'USER',
+            content: latestMessage,
+          }
+        }
+      }
+    });
+    console.log(`[API] Created DB session: ${session.id}`);
+
+    // 4. Discordの先輩へ質問を送信
+    const discordInfo = await askSenpai(latestMessage, session.id);
+    if (discordInfo) {
+      // Discordへ送信できたらメッセージID等を保存
+      await db.session.update({
+        where: { id: session.id },
+        data: { discordThreadId: discordInfo.threadId }
+      });
+    }
 
     // 2. データベースをポーリングして先輩の返信を待機するループ
     let isAnswered = false;
     let waitCount = 0;
-    const MAX_WAIT_SECONDS = 300; // 5分待機（本来はもっと長くて良い）
+    const MAX_WAIT_SECONDS = 300; // 5分待機
     const POLL_INTERVAL = 2000;   // 2秒に1回DBを確認
 
     while (!isAnswered && waitCount < (MAX_WAIT_SECONDS * 1000) / POLL_INTERVAL) {
       // タイムアウト防止のためのKeep-Alive（空のチャンク）
+      // role を再度送ったり、内容を重複して送るとエラーの原因になるため delta は空にする
       await stream.writeSSE({
         data: JSON.stringify({
-          id: `chatcmpl-${Date.now()}`,
+          id: streamId,
           object: 'chat.completion.chunk',
-          created: Math.floor(Date.now() / 1000),
-          model: body.model || 'senpai-model',
-          choices: [{ index: 0, delta: {} }], 
+          created: createdTime,
+          model: reqModel,
+          choices: [{ index: 0, delta: {}, finish_reason: null }], 
         }),
       });
 
@@ -92,14 +96,15 @@ chatRouter.post('/completions', async (c) => {
             // Tool Call（コマンド実行指示）の場合
             await stream.writeSSE({
               data: JSON.stringify({
-                id: `chatcmpl-${Date.now()}`,
+                id: streamId,
                 object: 'chat.completion.chunk',
-                created: Math.floor(Date.now() / 1000),
-                model: body.model || 'senpai-model',
+                created: createdTime,
+                model: reqModel,
                 choices: [{
                   index: 0,
                   delta: {
                     tool_calls: [{
+                      index: 0,
                       id: latestMsg.toolCallId || `call_${Date.now()}`,
                       type: "function",
                       function: {
@@ -107,7 +112,8 @@ chatRouter.post('/completions', async (c) => {
                         arguments: JSON.stringify({ command: latestMsg.content })
                       }
                     }]
-                  }
+                  },
+                  finish_reason: "tool_calls"
                 }],
               }),
             });
@@ -115,11 +121,11 @@ chatRouter.post('/completions', async (c) => {
             // 通常のテキスト回答の場合
             await stream.writeSSE({
               data: JSON.stringify({
-                id: `chatcmpl-${Date.now()}`,
+                id: streamId,
                 object: 'chat.completion.chunk',
-                created: Math.floor(Date.now() / 1000),
-                model: body.model || 'senpai-model',
-                choices: [{ index: 0, delta: { content: latestMsg.content } }],
+                created: createdTime,
+                model: reqModel,
+                choices: [{ index: 0, delta: { content: latestMsg.content }, finish_reason: "stop" }],
               }),
             });
           }
@@ -131,6 +137,19 @@ chatRouter.post('/completions', async (c) => {
         await stream.sleep(POLL_INTERVAL);
         waitCount++;
       }
+    }
+
+    // タイムアウトした場合の処理
+    if (!isAnswered) {
+      await stream.writeSSE({
+        data: JSON.stringify({
+          id: streamId,
+          object: 'chat.completion.chunk',
+          created: createdTime,
+          model: reqModel,
+          choices: [{ index: 0, delta: { content: '\n[タイムアウトしました]' }, finish_reason: "stop" }],
+        }),
+      });
     }
 
     // 3. Close the stream properly following the OpenAI spec

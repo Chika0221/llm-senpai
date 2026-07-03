@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Message, Partials } from 'discord.js';
+import { Client, GatewayIntentBits, Message, Partials, Events } from 'discord.js';
 import "../env.js"
 
 export const discordClient = new Client({
@@ -10,7 +10,7 @@ export const discordClient = new Client({
   partials: [Partials.Message, Partials.Channel],
 });
 
-discordClient.on('ready', () => {
+discordClient.on(Events.ClientReady, () => {
   console.log(`🤖 Discord Bot is ready! Logged in as ${discordClient.user?.tag}`);
 });
 
@@ -111,9 +111,19 @@ export const askSenpai = async (question: string, sessionId: string) => {
     }
 
     // 質問を送信
-    const message = await channel.send({
-      content: `🔔 **後輩からの新しい質問です！**\n\n\`\`\`\n${question}\n\`\`\`\n*SessionID: ${sessionId}*`,
-    });
+    const fullMessage = `🔔 **後輩からの新しい質問です！**\n\n\`\`\`\n${question}\n\`\`\`\n*SessionID: ${sessionId}*`;
+    
+    let message;
+    if (fullMessage.length > 2000) {
+      message = await channel.send({
+        content: `🔔 **後輩からの新しい質問です！**\n*(内容が長いためファイルとして添付します)*\n*SessionID: ${sessionId}*`,
+        files: [{ attachment: Buffer.from(question, 'utf-8'), name: 'question.txt' }]
+      });
+    } else {
+      message = await channel.send({
+        content: fullMessage,
+      });
+    }
 
     // スレッドを作成してやり取りをまとめる
     const thread = await message.startThread({
