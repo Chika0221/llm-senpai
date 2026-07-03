@@ -8,12 +8,31 @@
 
 AIエディタ（Cursor、Copilotなど）の「カスタムAIモデル」として先輩を呼び出し、エディタ上から直接質問することができます。
 
-### 1. エディタの設定（例：Cursor）
-1. Cursorの **Settings > Models** を開きます。
-2. **OpenAI Base URL**（または Custom API URL）に、本システムのバックエンドURLを設定します。
-   - ローカル開発中の場合: `http://localhost:7070/v1`
-3. モデル名（Model Name）に `senpai-model` （または任意に設定された名前）を入力し、有効化します。
-   - ※ APIキーの入力を求められた場合は、任意の文字列（例: `dummy`）を入力してください。
+### 1. エディタの設定（例：VSCode）
+1. VSCodeの右側のチャット画面を開きます。
+2. 下の **モデルの管理...** を探しクリック
+3. **モデルの追加 → Custom Endpoint → グループ名：Horizon → APIKEY：horizon → chat-completions** 
+4. エディタが出てくるので以下のように設定
+   ```json
+   {
+		"name": "Horizon",
+		"vendor": "customendpoint",
+		"apiKey": "${自動入力}",
+		"apiType": "chat-completions",
+		"models": [
+			{
+				"id": "senpai1",
+				"name": "LLMSenpai 1.0",
+				"url": "http://localhost:7070/v1",
+				"toolCalling": true,
+				"vision": true,
+				"maxInputTokens": 128000,
+				"maxOutputTokens": 16000
+			}
+		]
+	}
+   ```
+
 
 ### 2. 質問のしかた
 普段AIに質問するのと同じ感覚で、チャット欄に質問を入力してください。
