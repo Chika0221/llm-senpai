@@ -1,0 +1,8 @@
+node_modules
+apps/web/.next
+apps/api/dist
+apps/api/dev.db
+.git
+.gitignore
+.next
+*.md
