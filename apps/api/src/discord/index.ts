@@ -73,7 +73,7 @@ discordClient.on('messageCreate', async (message: Message) => {
       }),
       db.session.update({
         where: { id: session.id },
-        data: { status: 'REPLIED' }
+        data: { status: 'COMPLETED' }
       })
     ]);
   }
@@ -105,7 +105,7 @@ export const askSenpai = async (question: string, sessionId: string) => {
 
   try {
     const channel = await discordClient.channels.fetch(channelId);
-    if (!channel || !channel.isTextBased()) {
+    if (!channel || !channel.isTextBased() || !('send' in channel)) {
       console.error('❌ Invalid Discord Channel ID');
       return null;
     }
