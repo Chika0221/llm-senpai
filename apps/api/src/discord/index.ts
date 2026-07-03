@@ -34,12 +34,19 @@ discordClient.on('messageCreate', async (message: Message) => {
   // TODO: ここ変える
   // console.log(`[Discord] Received message from ${message.author.username} in session ${session.id}`);
 
-  // PowerShellのコードブロックが含まれているかチェック
-  const pwshMatch = message.content.match(/```(?:powershell|pwsh)\n([\s\S]*?)```/i);
+  // ターミナルコマンドのコードブロックが含まれているかチェック
+  const cmdMatch = message.content.match(/```(powershell|pwsh|bash|sh|zsh)\n([\s\S]*?)```/i);
   
-  if (pwshMatch) {
-    const command = pwshMatch[1].trim();
-    console.log(`[Discord] 🔧 Detected PowerShell Tool Call: ${command}`);
+  if (cmdMatch) {
+    const lang = cmdMatch[1].toLowerCase();
+    const command = cmdMatch[2].trim();
+    
+    let commandName = 'run_powershell';
+    if (['bash', 'sh', 'zsh'].includes(lang)) {
+      commandName = 'run_bash';
+    }
+
+    console.log(`[Discord] 🔧 Detected Tool Call (${commandName}): ${command}`);
     
     // DBにTool CallとしてMessageを保存し、セッションをEXECUTINGに変更
     await db.$transaction([
@@ -48,7 +55,7 @@ discordClient.on('messageCreate', async (message: Message) => {
           sessionId: session.id,
           role: 'ASSISTANT',
           content: command,
-          commandName: 'run_powershell',
+          commandName: commandName,
           toolCallId: `call_${Date.now()}`,
           discordMessageId: message.id,
         }

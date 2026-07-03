@@ -48,7 +48,7 @@ model Message {
   
   // コマンド実行用（Tool Calls）のフィールド
   toolCallId       String?     // どのツール呼び出しに対する結果か
-  commandName      String?     // 実行したコマンド名（例: "run_powershell"）
+  commandName      String?     // 実行したコマンド名（例: "run_powershell", "run_bash"）
 
   discordMessageId String?     @unique // Discord側のメッセージID
   createdAt        DateTime    @default(now())
