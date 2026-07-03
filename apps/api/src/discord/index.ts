@@ -31,8 +31,8 @@ discordClient.on('messageCreate', async (message: Message) => {
     // セッションに紐付かないスレッドやチャンネルの会話は無視する
     return;
   }
-
-  console.log(`[Discord] Received message from ${message.author.username} in session ${session.id}`);
+  // TODO: ここ変える
+  // console.log(`[Discord] Received message from ${message.author.username} in session ${session.id}`);
 
   // PowerShellのコードブロックが含まれているかチェック
   const pwshMatch = message.content.match(/```(?:powershell|pwsh)\n([\s\S]*?)```/i);
