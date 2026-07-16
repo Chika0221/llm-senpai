@@ -1,0 +1,1766 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "Pul4c",
+      "x": 100,
+      "y": -500,
+      "name": "Components",
+      "layout": "vertical",
+      "gap": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "OIQFX",
+          "name": "Senpai Avatar",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "fill": "$accent",
+          "cornerRadius": 18,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "qWYXZ",
+              "name": "Avatar Icon",
+              "width": 20,
+              "height": 20,
+              "icon": "graduation-cap",
+              "library": "lucide",
+              "fill": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D2jCqq",
+          "name": "Senpai Message",
+          "reusable": true,
+          "width": 720,
+          "gap": 12,
+          "children": [
+            {
+              "id": "t8iVO",
+              "type": "ref",
+              "ref": "OIQFX",
+              "name": "Avatar"
+            },
+            {
+              "type": "frame",
+              "id": "MHD6c",
+              "name": "Body",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "i6VK3",
+                  "name": "Sender Name",
+                  "fill": "$accent",
+                  "content": "React先輩",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "x7kADp",
+                  "name": "Bubble",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": [
+                    4,
+                    "$radius-lg",
+                    "$radius-lg",
+                    "$radius-lg"
+                  ],
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    14,
+                    18
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x9kOe",
+                      "name": "Message Text",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "エラーのログを貼ってみて！",
+                      "lineHeight": 1.7,
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "KCIjE",
+                  "name": "Timestamp",
+                  "fill": "$text-secondary",
+                  "content": "14:02",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gCqn4",
+          "name": "User Message",
+          "reusable": true,
+          "width": 720,
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "end",
+          "children": [
+            {
+              "type": "frame",
+              "id": "eF5s8",
+              "name": "Bubble",
+              "fill": "$bubble-user",
+              "cornerRadius": [
+                "$radius-lg",
+                4,
+                "$radius-lg",
+                "$radius-lg"
+              ],
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "q9q5ts",
+                  "name": "Message Text",
+                  "fill": "#F5F1EB",
+                  "content": "npm installでエラーが出ます",
+                  "lineHeight": 1.7,
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "E0FYel",
+              "name": "Timestamp",
+              "fill": "$text-secondary",
+              "content": "14:00",
+              "fontFamily": "$font-body",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W0Aib3",
+          "name": "Status Chip",
+          "reusable": true,
+          "fill": "$accent-soft",
+          "cornerRadius": 99,
+          "gap": 8,
+          "padding": [
+            8,
+            14
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "D1yXmd",
+              "name": "Pulse Dot",
+              "fill": "$accent",
+              "width": 8,
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "sOdxp",
+              "name": "Status Text",
+              "fill": "$accent",
+              "content": "先輩が確認中...",
+              "fontFamily": "$font-body",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LLoEO",
+          "name": "Session Item",
+          "reusable": true,
+          "width": 232,
+          "cornerRadius": "$radius-md",
+          "layout": "vertical",
+          "gap": 4,
+          "padding": [
+            10,
+            12
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "YBgsR",
+              "name": "Session Title",
+              "fill": "$sidebar-text",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "npm installのエラー",
+              "fontFamily": "$font-body",
+              "fontSize": 13,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "ROxEG",
+              "name": "Session Meta",
+              "fill": "$sidebar-muted",
+              "content": "Node.js・回答済み",
+              "fontFamily": "$font-body",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "LdUb6",
+      "x": 100,
+      "y": 55,
+      "name": "Chat - 会話中",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$bg",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Lf0A6",
+          "name": "Sidebar",
+          "width": 280,
+          "height": "fill_container",
+          "fill": "$sidebar-bg",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            20,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "IQykL",
+              "name": "Brand",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pXjwD",
+                  "name": "Brand Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$accent",
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "hLan1",
+                      "name": "Brand Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "graduation-cap",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OUdgi",
+                  "name": "Brand Text",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "iqmFP",
+                      "name": "App Name",
+                      "fill": "$sidebar-text",
+                      "content": "先輩に聞く",
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CIbqs",
+                      "name": "App Sub",
+                      "fill": "$sidebar-muted",
+                      "content": "SENPAI AS A MODEL",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "R8ml1",
+              "name": "New Question Button",
+              "width": "fill_container",
+              "fill": "$accent",
+              "cornerRadius": "$radius-md",
+              "gap": 8,
+              "padding": [
+                12,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "f1GbUn",
+                  "name": "Plus Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "text",
+                  "id": "R3t3CN",
+                  "name": "New Label",
+                  "fill": "#FFFFFF",
+                  "content": "新しい質問",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MxGT4",
+              "name": "History",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dbLmN",
+                  "name": "History Label",
+                  "fill": "$sidebar-muted",
+                  "content": "質問履歴",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "WBjc5",
+                  "name": "History List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "id": "bzmRA",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Active Session",
+                      "fill": "#3A332C",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "npm installのエラー"
+                        },
+                        "ROxEG": {
+                          "content": "Node.js・先輩が確認中",
+                          "fill": "$accent"
+                        }
+                      }
+                    },
+                    {
+                      "id": "f5Kpf",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "ReactのuseEffectについて",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "ReactのuseEffectについて"
+                        },
+                        "ROxEG": {
+                          "content": "React・回答済み"
+                        }
+                      }
+                    },
+                    {
+                      "id": "OdDrq",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Gitのconflict解消",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "Gitのconflict解消"
+                        },
+                        "ROxEG": {
+                          "content": "Git・回答済み"
+                        }
+                      }
+                    },
+                    {
+                      "id": "FB1pz",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Pythonの環境構築",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "Pythonの環境構築"
+                        },
+                        "ROxEG": {
+                          "content": "Python・回答済み"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "c2i2h",
+              "name": "User Row",
+              "width": "fill_container",
+              "gap": 10,
+              "padding": [
+                12,
+                0,
+                0,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zHOvr",
+                  "name": "User Avatar",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#4A4238",
+                  "cornerRadius": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "XkTJT",
+                      "name": "User Initial",
+                      "fill": "$sidebar-text",
+                      "content": "後",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "w5qb1C",
+                  "name": "User Info",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "b5mMX6",
+                      "name": "User Name",
+                      "fill": "$sidebar-text",
+                      "content": "後輩ユーザー",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kmkHJ",
+                      "name": "User Status",
+                      "fill": "$sidebar-muted",
+                      "content": "y240159@mail...",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon",
+                  "id": "YARjK",
+                  "name": "Settings Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "settings",
+                  "library": "lucide",
+                  "fill": "$sidebar-muted"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "opz5L",
+          "name": "Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "X4vKQL",
+              "name": "Chat Header",
+              "width": "fill_container",
+              "fill": "$surface",
+              "stroke": "$border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": [
+                16,
+                40
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "iu1ye",
+                  "name": "Header Left",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "C5HrMj",
+                      "name": "Chat Title",
+                      "fill": "$text-primary",
+                      "content": "npm installのエラー",
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pQ6uz",
+                      "name": "Header Meta",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h2oHBI",
+                          "name": "Routing Label",
+                          "fill": "$text-secondary",
+                          "content": "自動判定:",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Xxyxa",
+                          "name": "Tech Tag",
+                          "fill": "$accent-soft",
+                          "cornerRadius": 6,
+                          "padding": [
+                            2,
+                            8
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "D5WV9z",
+                              "name": "Tag Text",
+                              "fill": "$accent",
+                              "content": "Node.js",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y4LFBW",
+                          "name": "Routed To",
+                          "fill": "$text-secondary",
+                          "content": "→ @Node.js先輩 に送信済み",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DJIDV",
+                  "name": "Online Chip",
+                  "fill": "#EDF5F0",
+                  "cornerRadius": 99,
+                  "gap": 6,
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "xzs7B",
+                      "name": "Online Dot",
+                      "fill": "$success",
+                      "width": 8,
+                      "height": 8
+                    },
+                    {
+                      "type": "text",
+                      "id": "g9j3nK",
+                      "name": "Online Text",
+                      "fill": "$success",
+                      "content": "先輩 2人がオンライン",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "g5LHLQ",
+              "name": "Thread",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xZ742",
+                  "name": "Date Divider",
+                  "width": 720,
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SSnjj",
+                      "name": "Date Text",
+                      "fill": "$text-secondary",
+                      "content": "今日 14:00",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "ybQzI",
+                  "type": "ref",
+                  "ref": "gCqn4",
+                  "name": "Q1",
+                  "descendants": {
+                    "q9q5ts": {
+                      "content": "npm installでエラーが出ます。何度やっても失敗してしまいます…"
+                    },
+                    "E0FYel": {
+                      "content": "14:00"
+                    }
+                  }
+                },
+                {
+                  "id": "pyHXb",
+                  "type": "ref",
+                  "ref": "D2jCqq",
+                  "name": "A1",
+                  "descendants": {
+                    "i6VK3": {
+                      "content": "Node.js先輩"
+                    },
+                    "x9kOe": {
+                      "content": "エラーのログを貼ってみて！全文コピーして送ってくれると原因がわかりやすいよ。"
+                    },
+                    "KCIjE": {
+                      "content": "14:02"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "QBGZi",
+                  "name": "Q2 Code",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gaXkq",
+                      "name": "Code Bubble",
+                      "width": 560,
+                      "fill": "$bubble-user",
+                      "cornerRadius": [
+                        "$radius-lg",
+                        4,
+                        "$radius-lg",
+                        "$radius-lg"
+                      ],
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        14,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "otqPz",
+                          "name": "Code Intro",
+                          "fill": "#F5F1EB",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "これです！",
+                          "lineHeight": 1.7,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MLEb2",
+                          "name": "Code Block",
+                          "width": "fill_container",
+                          "fill": "#17130F",
+                          "cornerRadius": 8,
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            14
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wFeTg",
+                              "name": "Code Text",
+                              "fill": "#E8A87C",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "npm ERR! code ERESOLVE\nnpm ERR! Could not resolve dependency:\nnpm ERR! peer react@\"^18.0.0\" from react-dom@18.2.0",
+                              "lineHeight": 1.6,
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "n7jPl",
+                      "name": "Timestamp",
+                      "fill": "$text-secondary",
+                      "content": "14:03",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ssLaX",
+                  "name": "Status Row",
+                  "width": 720,
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "A50WhL",
+                      "type": "ref",
+                      "ref": "OIQFX",
+                      "name": "Avatar"
+                    },
+                    {
+                      "id": "ihwzi",
+                      "type": "ref",
+                      "ref": "W0Aib3",
+                      "name": "Checking Chip"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "y9nhvf",
+              "name": "Composer Area",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                16,
+                0,
+                24,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "t6XEvM",
+                  "name": "Input Box",
+                  "width": 720,
+                  "fill": "$surface",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#241F1A14",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
+                  },
+                  "gap": 12,
+                  "padding": [
+                    8,
+                    8,
+                    8,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Cl0xm",
+                      "name": "Attach Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "paperclip",
+                      "library": "lucide",
+                      "fill": "$text-secondary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XZJK1",
+                      "name": "Placeholder",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "先輩に質問する…",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zQhcC",
+                      "name": "Send Button",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$accent",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "f4GjB",
+                          "name": "Send Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "send",
+                          "library": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "sdFnw",
+                  "name": "Composer Hint",
+                  "fill": "$text-secondary",
+                  "content": "回答するのは人間の先輩です。返信まで少し時間がかかることがあります",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Thgl6",
+      "x": 1660,
+      "y": 55,
+      "name": "Chat - ウェルカム",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$bg",
+      "children": [
+        {
+          "type": "frame",
+          "id": "C2wZJ",
+          "name": "Sidebar",
+          "width": 280,
+          "height": "fill_container",
+          "fill": "$sidebar-bg",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            20,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "StxYo",
+              "name": "Brand",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "gmMoC",
+                  "name": "Brand Mark",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "$accent",
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "a5Sow",
+                      "name": "Brand Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "graduation-cap",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "H76ZNX",
+                  "name": "Brand Text",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GInKs",
+                      "name": "App Name",
+                      "fill": "$sidebar-text",
+                      "content": "先輩に聞く",
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "w2rZ0H",
+                      "name": "App Sub",
+                      "fill": "$sidebar-muted",
+                      "content": "SENPAI AS A MODEL",
+                      "fontFamily": "$font-body",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VMzhC",
+              "name": "New Question Button",
+              "width": "fill_container",
+              "fill": "$accent",
+              "cornerRadius": "$radius-md",
+              "gap": 8,
+              "padding": [
+                12,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "qo6Yk",
+                  "name": "Plus Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "text",
+                  "id": "LVCbU",
+                  "name": "New Label",
+                  "fill": "#FFFFFF",
+                  "content": "新しい質問",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Rnr5K",
+              "name": "History",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "o0xcgY",
+                  "name": "History Label",
+                  "fill": "$sidebar-muted",
+                  "content": "質問履歴",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "H2L9Vv",
+                  "name": "History List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "id": "cgr4M",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Active Session",
+                      "fill": "#3A332C",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "npm installのエラー"
+                        },
+                        "ROxEG": {
+                          "content": "Node.js・先輩が確認中",
+                          "fill": "$accent"
+                        }
+                      }
+                    },
+                    {
+                      "id": "UrfWt",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "ReactのuseEffectについて",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "ReactのuseEffectについて"
+                        },
+                        "ROxEG": {
+                          "content": "React・回答済み"
+                        }
+                      }
+                    },
+                    {
+                      "id": "SIDiX",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Gitのconflict解消",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "Gitのconflict解消"
+                        },
+                        "ROxEG": {
+                          "content": "Git・回答済み"
+                        }
+                      }
+                    },
+                    {
+                      "id": "loCsB",
+                      "type": "ref",
+                      "ref": "LLoEO",
+                      "name": "Pythonの環境構築",
+                      "width": "fill_container",
+                      "descendants": {
+                        "YBgsR": {
+                          "content": "Pythonの環境構築"
+                        },
+                        "ROxEG": {
+                          "content": "Python・回答済み"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VLCfQ",
+              "name": "User Row",
+              "width": "fill_container",
+              "gap": 10,
+              "padding": [
+                12,
+                0,
+                0,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qnZso",
+                  "name": "User Avatar",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#4A4238",
+                  "cornerRadius": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e72cj",
+                      "name": "User Initial",
+                      "fill": "$sidebar-text",
+                      "content": "後",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z4Pxo",
+                  "name": "User Info",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "r4IfAc",
+                      "name": "User Name",
+                      "fill": "$sidebar-text",
+                      "content": "後輩ユーザー",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ur2TE",
+                      "name": "User Status",
+                      "fill": "$sidebar-muted",
+                      "content": "y240159@mail...",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon",
+                  "id": "r5hVo",
+                  "name": "Settings Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "settings",
+                  "library": "lucide",
+                  "fill": "$sidebar-muted"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JlYIt",
+          "name": "Main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "SfNOs",
+              "name": "Hero",
+              "width": 720,
+              "layout": "vertical",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mVnSw",
+                  "name": "Hero Mark",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "$accent",
+                  "cornerRadius": 24,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#E8590C33",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 24
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "lrjzf",
+                      "name": "Hero Icon",
+                      "width": 40,
+                      "height": 40,
+                      "icon": "graduation-cap",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "t3XhQL",
+                  "name": "Hero Title",
+                  "fill": "$text-primary",
+                  "content": "先輩に、なんでも聞いてみよう",
+                  "fontFamily": "$font-body",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "XA64p",
+                  "name": "Hero Sub",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 560,
+                  "content": "AIではなく、技術が得意な本物の先輩が答えてくれます。質問はDiscordの専門チャンネルに自動で届きます。",
+                  "lineHeight": 1.8,
+                  "textAlign": "center",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "oyczF",
+                  "name": "Suggestions",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    24,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YcBtA",
+                      "name": "Suggest Row 1",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "N6SF2",
+                          "name": "Suggest: package.json",
+                          "width": "fill_container",
+                          "fill": "$surface",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "yPf0o",
+                              "name": "Card Top",
+                              "gap": 8,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "VMCMQ",
+                                  "name": "Card Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "terminal",
+                                  "library": "lucide",
+                                  "fill": "$accent"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Donzw",
+                                  "name": "Card Tag",
+                                  "fill": "$accent",
+                                  "content": "package.json",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "ByPpa",
+                              "name": "Card Question",
+                              "fill": "$text-primary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "npm installでエラーが出て進めません",
+                              "lineHeight": 1.6,
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YNqsm",
+                          "name": "Suggest: React",
+                          "width": "fill_container",
+                          "fill": "$surface",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "OX4rY",
+                              "name": "Card Top",
+                              "gap": 8,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "ZstCx",
+                                  "name": "Card Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "code",
+                                  "library": "lucide",
+                                  "fill": "$accent"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bTx42",
+                                  "name": "Card Tag",
+                                  "fill": "$accent",
+                                  "content": "React",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "F5wn2V",
+                              "name": "Card Question",
+                              "fill": "$text-primary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "useStateとuseEffectの違いがわかりません",
+                              "lineHeight": 1.6,
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AYhAz",
+                      "name": "Suggest Row 2",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "sTpwI",
+                          "name": "Suggest: Git",
+                          "width": "fill_container",
+                          "fill": "$surface",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "KoLkj",
+                              "name": "Card Top",
+                              "gap": 8,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "NSeO9",
+                                  "name": "Card Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "git-branch",
+                                  "library": "lucide",
+                                  "fill": "$accent"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "I7yyt",
+                                  "name": "Card Tag",
+                                  "fill": "$accent",
+                                  "content": "Git",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "jlznC",
+                              "name": "Card Question",
+                              "fill": "$text-primary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "mergeでconflictが起きて困っています",
+                              "lineHeight": 1.6,
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "iq9Dr",
+                          "name": "Suggest: 環境構築",
+                          "width": "fill_container",
+                          "fill": "$surface",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ssQNu",
+                              "name": "Card Top",
+                              "gap": 8,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Bm0hb",
+                                  "name": "Card Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "wrench",
+                                  "library": "lucide",
+                                  "fill": "$accent"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "dvf7L",
+                                  "name": "Card Tag",
+                                  "fill": "$accent",
+                                  "content": "環境構築",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "JyxEs",
+                              "name": "Card Question",
+                              "fill": "$text-primary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Pythonの仮想環境の作り方を教えてほしい",
+                              "lineHeight": 1.6,
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JWe63",
+              "name": "Composer Area",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                40,
+                0,
+                0,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mVYAt",
+                  "name": "Input Box",
+                  "width": 720,
+                  "fill": "$surface",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#241F1A14",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
+                  },
+                  "gap": 12,
+                  "padding": [
+                    8,
+                    8,
+                    8,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "csHF9",
+                      "name": "Attach Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "paperclip",
+                      "library": "lucide",
+                      "fill": "$text-secondary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nWZGF",
+                      "name": "Placeholder",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "先輩に質問する…",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SX1gj",
+                      "name": "Send Button",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$accent",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "VeDsQ",
+                          "name": "Send Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "send",
+                          "library": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "K22sh0",
+                  "name": "Composer Hint",
+                  "fill": "$text-secondary",
+                  "content": "質問内容から言語・技術を自動判定して、担当の先輩に届けます",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#F7F5F1"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "sidebar-bg": {
+      "type": "color",
+      "value": "#211D19"
+    },
+    "sidebar-text": {
+      "type": "color",
+      "value": "#E9E4DC"
+    },
+    "sidebar-muted": {
+      "type": "color",
+      "value": "#9C948A"
+    },
+    "accent": {
+      "type": "color",
+      "value": "#E8590C"
+    },
+    "accent-soft": {
+      "type": "color",
+      "value": "#FCEEE4"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#241F1A"
+    },
+    "text-secondary": {
+      "type": "color",
+      "value": "#6E655B"
+    },
+    "border": {
+      "type": "color",
+      "value": "#E5DFD6"
+    },
+    "bubble-user": {
+      "type": "color",
+      "value": "#2E2721"
+    },
+    "success": {
+      "type": "color",
+      "value": "#3D8B5F"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Noto Sans JP"
+    },
+    "radius-lg": {
+      "type": "number",
+      "value": 16
+    },
+    "radius-md": {
+      "type": "number",
+      "value": 10
+    }
+  },
+  "fileToken": "c4da5546-f608-4baf-8324-8c7bd81b5220"
+}
