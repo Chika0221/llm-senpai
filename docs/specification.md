@@ -167,26 +167,28 @@ sequenceDiagram
 
 ---
 
-## 7. データモデル（現状 + v2追加提案）
+## 7. データモデル（現状 + v2追加分）
 
 ### 現状（実装済み）
 
 - **Session**: `id` / `source(WEB|API)` / `discordThreadId` / `status(OPEN|WAITING|EXECUTING|COMPLETED|ERROR)` / タイムスタンプ / `messages[]`
 - **Message**: `id` / `sessionId` / `role(USER|ASSISTANT|TOOL)` / `content` / `toolCallId` / `commandName` / `discordMessageId` / `createdAt`
 
-### v2で追加を提案するフィールド
+### v2追加フィールド（v2.1で実装済み / #2）
+
+すべて nullable もしくはデフォルト値付きで追加し、既存データを壊さない。
 
 - **Session**:
   - `assigneeId` / `assigneeName`（担当先輩。担当ロック用。DiscordユーザーIDを想定）
   - `requesterId`（質問者のDiscordユーザーID。§5.7の監査・紐付け用）
-  - `title` または要約（キュー一覧の見出し用）
-  - `topic`（自動ルーティングで判定した言語・技術）
+  - `title`（キュー一覧の見出し用の要約）
+  - `topic`（自動ルーティングで判定した言語・技術。nullable）
 - **Message**:
-  - コマンド承認状態（例: `approvalStatus: PENDING | APPROVED | REJECTED`）
+  - `approvalStatus`（コマンド承認状態。`PENDING | APPROVED | REJECTED`。コマンド系メッセージのみ利用、通常メッセージは null）
 - **User（新規モデル / 認証用。§5.7）**:
-  - `discordUserId`（主キー相当。Discordの一意ID）/ `displayName` / `avatarUrl`
-  - `role`（`KISO`＝基礎班＝後輩 / `HATTEN`＝発展班＝先輩。ログイン時にギルドロールから判定・更新）
-  - `lastLoginAt`（ロール再判定のタイミング管理用）
+  - `discordUserId`（主キー。Discordの一意ID）/ `displayName` / `avatarUrl`
+  - `role`（`KISO`＝基礎班＝後輩 / `HATTEN`＝発展班＝先輩。既定 `KISO`。ログイン時にギルドロールから判定・更新）
+  - `lastLoginAt`（ロール再判定のタイミング管理用）/ `createdAt` / `updatedAt`
   - ※パスワード等の秘匿情報は保持しない（認証はDiscordに委譲）。
 
 ---
