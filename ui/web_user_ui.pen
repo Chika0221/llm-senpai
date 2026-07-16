@@ -17,8 +17,8 @@
           "reusable": true,
           "width": 36,
           "height": 36,
-          "fill": "$accent",
-          "cornerRadius": 18,
+          "fill": "$primary",
+          "cornerRadius": "$radius-full",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
@@ -30,7 +30,7 @@
               "height": 20,
               "icon": "graduation-cap",
               "library": "lucide",
-              "fill": "#FFFFFF"
+              "fill": "$on-primary"
             }
           ]
         },
@@ -60,9 +60,9 @@
                   "type": "text",
                   "id": "i6VK3",
                   "name": "Sender Name",
-                  "fill": "$accent",
+                  "fill": "$primary",
                   "content": "React先輩",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 13,
                   "fontWeight": "700"
                 },
@@ -71,14 +71,14 @@
                   "id": "x7kADp",
                   "name": "Bubble",
                   "width": "fill_container",
-                  "fill": "$surface",
+                  "fill": "$surface-container-lowest",
                   "cornerRadius": [
                     4,
-                    "$radius-lg",
-                    "$radius-lg",
-                    "$radius-lg"
+                    18,
+                    18,
+                    18
                   ],
-                  "stroke": "$border",
+                  "stroke": "$outline-variant",
                   "strokeWidth": 1,
                   "layout": "vertical",
                   "padding": [
@@ -90,12 +90,12 @@
                       "type": "text",
                       "id": "x9kOe",
                       "name": "Message Text",
-                      "fill": "$text-primary",
+                      "fill": "$on-surface",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "エラーのログを貼ってみて！",
                       "lineHeight": 1.7,
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 15,
                       "fontWeight": "normal"
                     }
@@ -105,9 +105,9 @@
                   "type": "text",
                   "id": "KCIjE",
                   "name": "Timestamp",
-                  "fill": "$text-secondary",
+                  "fill": "$on-surface-variant",
                   "content": "14:02",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 11,
                   "fontWeight": "normal"
                 }
@@ -129,12 +129,12 @@
               "type": "frame",
               "id": "eF5s8",
               "name": "Bubble",
-              "fill": "$bubble-user",
+              "fill": "$primary",
               "cornerRadius": [
-                "$radius-lg",
+                18,
                 4,
-                "$radius-lg",
-                "$radius-lg"
+                18,
+                18
               ],
               "layout": "vertical",
               "padding": [
@@ -146,10 +146,10 @@
                   "type": "text",
                   "id": "q9q5ts",
                   "name": "Message Text",
-                  "fill": "#F5F1EB",
+                  "fill": "$on-primary",
                   "content": "npm installでエラーが出ます",
                   "lineHeight": 1.7,
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 15,
                   "fontWeight": "normal"
                 }
@@ -159,9 +159,9 @@
               "type": "text",
               "id": "E0FYel",
               "name": "Timestamp",
-              "fill": "$text-secondary",
+              "fill": "$on-surface-variant",
               "content": "14:00",
-              "fontFamily": "$font-body",
+              "fontFamily": "$font-family",
               "fontSize": 11,
               "fontWeight": "normal"
             }
@@ -172,8 +172,8 @@
           "id": "W0Aib3",
           "name": "Status Chip",
           "reusable": true,
-          "fill": "$accent-soft",
-          "cornerRadius": 99,
+          "fill": "#4648d41a",
+          "cornerRadius": "$radius-full",
           "gap": 8,
           "padding": [
             8,
@@ -185,7 +185,7 @@
               "type": "ellipse",
               "id": "D1yXmd",
               "name": "Pulse Dot",
-              "fill": "$accent",
+              "fill": "$primary",
               "width": 8,
               "height": 8
             },
@@ -193,9 +193,9 @@
               "type": "text",
               "id": "sOdxp",
               "name": "Status Text",
-              "fill": "$accent",
+              "fill": "$primary",
               "content": "先輩が確認中...",
-              "fontFamily": "$font-body",
+              "fontFamily": "$font-family",
               "fontSize": 13,
               "fontWeight": "500"
             }
@@ -207,7 +207,7 @@
           "name": "Session Item",
           "reusable": true,
           "width": 232,
-          "cornerRadius": "$radius-md",
+          "cornerRadius": "$radius",
           "layout": "vertical",
           "gap": 4,
           "padding": [
@@ -219,11 +219,11 @@
               "type": "text",
               "id": "YBgsR",
               "name": "Session Title",
-              "fill": "$sidebar-text",
+              "fill": "$on-surface",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "npm installのエラー",
-              "fontFamily": "$font-body",
+              "fontFamily": "$font-family",
               "fontSize": 13,
               "fontWeight": "500"
             },
@@ -231,9 +231,9 @@
               "type": "text",
               "id": "ROxEG",
               "name": "Session Meta",
-              "fill": "$sidebar-muted",
+              "fill": "$on-surface-variant",
               "content": "Node.js・回答済み",
-              "fontFamily": "$font-body",
+              "fontFamily": "$font-family",
               "fontSize": 11,
               "fontWeight": "normal"
             }
@@ -250,7 +250,7 @@
       "clip": true,
       "width": 1440,
       "height": 900,
-      "fill": "$bg",
+      "fill": "$surface",
       "children": [
         {
           "type": "frame",
@@ -258,7 +258,11 @@
           "name": "Sidebar",
           "width": 280,
           "height": "fill_container",
-          "fill": "$sidebar-bg",
+          "fill": "$surface-container-lowest",
+          "stroke": "$outline-variant",
+          "strokeWidth": {
+            "right": 1
+          },
           "layout": "vertical",
           "gap": 24,
           "padding": [
@@ -280,8 +284,8 @@
                   "name": "Brand Mark",
                   "width": 32,
                   "height": 32,
-                  "fill": "$accent",
-                  "cornerRadius": 10,
+                  "fill": "$primary",
+                  "cornerRadius": "$radius-sm",
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -293,7 +297,7 @@
                       "height": 18,
                       "icon": "graduation-cap",
                       "library": "lucide",
-                      "fill": "#FFFFFF"
+                      "fill": "$on-primary"
                     }
                   ]
                 },
@@ -308,9 +312,9 @@
                       "type": "text",
                       "id": "iqmFP",
                       "name": "App Name",
-                      "fill": "$sidebar-text",
-                      "content": "先輩に聞く",
-                      "fontFamily": "$font-body",
+                      "fill": "$on-surface",
+                      "content": "LLMSenpai",
+                      "fontFamily": "$font-family",
                       "fontSize": 16,
                       "fontWeight": "700"
                     },
@@ -318,12 +322,12 @@
                       "type": "text",
                       "id": "CIbqs",
                       "name": "App Sub",
-                      "fill": "$sidebar-muted",
+                      "fill": "$on-surface-variant",
                       "content": "SENPAI AS A MODEL",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 10,
                       "fontWeight": "normal",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.5
                     }
                   ]
                 }
@@ -334,8 +338,8 @@
               "id": "R8ml1",
               "name": "New Question Button",
               "width": "fill_container",
-              "fill": "$accent",
-              "cornerRadius": "$radius-md",
+              "fill": "$primary",
+              "cornerRadius": "$radius",
               "gap": 8,
               "padding": [
                 12,
@@ -352,15 +356,15 @@
                   "height": 16,
                   "icon": "plus",
                   "library": "lucide",
-                  "fill": "#FFFFFF"
+                  "fill": "$on-primary"
                 },
                 {
                   "type": "text",
                   "id": "R3t3CN",
                   "name": "New Label",
-                  "fill": "#FFFFFF",
+                  "fill": "$on-primary",
                   "content": "新しい質問",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 14,
                   "fontWeight": "700"
                 }
@@ -379,9 +383,9 @@
                   "type": "text",
                   "id": "dbLmN",
                   "name": "History Label",
-                  "fill": "$sidebar-muted",
+                  "fill": "$on-surface-variant",
                   "content": "質問履歴",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 11,
                   "fontWeight": "500",
                   "letterSpacing": 1
@@ -399,7 +403,7 @@
                       "type": "ref",
                       "ref": "LLoEO",
                       "name": "Active Session",
-                      "fill": "#3A332C",
+                      "fill": "$surface-container",
                       "width": "fill_container",
                       "descendants": {
                         "YBgsR": {
@@ -407,7 +411,7 @@
                         },
                         "ROxEG": {
                           "content": "Node.js・先輩が確認中",
-                          "fill": "$accent"
+                          "fill": "$primary"
                         }
                       }
                     },
@@ -480,8 +484,8 @@
                   "name": "User Avatar",
                   "width": 32,
                   "height": 32,
-                  "fill": "#4A4238",
-                  "cornerRadius": 16,
+                  "fill": "$surface-container-highest",
+                  "cornerRadius": "$radius-full",
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -489,9 +493,9 @@
                       "type": "text",
                       "id": "XkTJT",
                       "name": "User Initial",
-                      "fill": "$sidebar-text",
+                      "fill": "$on-surface",
                       "content": "後",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 13,
                       "fontWeight": "700"
                     }
@@ -509,9 +513,9 @@
                       "type": "text",
                       "id": "b5mMX6",
                       "name": "User Name",
-                      "fill": "$sidebar-text",
+                      "fill": "$on-surface",
                       "content": "後輩ユーザー",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 13,
                       "fontWeight": "500"
                     },
@@ -519,9 +523,9 @@
                       "type": "text",
                       "id": "kmkHJ",
                       "name": "User Status",
-                      "fill": "$sidebar-muted",
+                      "fill": "$on-surface-variant",
                       "content": "y240159@mail...",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 11,
                       "fontWeight": "normal"
                     }
@@ -535,7 +539,7 @@
                   "height": 16,
                   "icon": "settings",
                   "library": "lucide",
-                  "fill": "$sidebar-muted"
+                  "fill": "$on-surface-variant"
                 }
               ]
             }
@@ -554,8 +558,8 @@
               "id": "X4vKQL",
               "name": "Chat Header",
               "width": "fill_container",
-              "fill": "$surface",
-              "stroke": "$border",
+              "fill": "$surface-container-lowest",
+              "stroke": "$outline-variant",
               "strokeWidth": {
                 "bottom": 1
               },
@@ -577,9 +581,9 @@
                       "type": "text",
                       "id": "C5HrMj",
                       "name": "Chat Title",
-                      "fill": "$text-primary",
+                      "fill": "$on-surface",
                       "content": "npm installのエラー",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 16,
                       "fontWeight": "700"
                     },
@@ -594,9 +598,9 @@
                           "type": "text",
                           "id": "h2oHBI",
                           "name": "Routing Label",
-                          "fill": "$text-secondary",
+                          "fill": "$on-surface-variant",
                           "content": "自動判定:",
-                          "fontFamily": "$font-body",
+                          "fontFamily": "$font-family",
                           "fontSize": 12,
                           "fontWeight": "normal"
                         },
@@ -604,8 +608,8 @@
                           "type": "frame",
                           "id": "Xxyxa",
                           "name": "Tech Tag",
-                          "fill": "$accent-soft",
-                          "cornerRadius": 6,
+                          "fill": "$primary-fixed",
+                          "cornerRadius": "$radius-full",
                           "padding": [
                             2,
                             8
@@ -615,9 +619,9 @@
                               "type": "text",
                               "id": "D5WV9z",
                               "name": "Tag Text",
-                              "fill": "$accent",
+                              "fill": "$primary",
                               "content": "Node.js",
-                              "fontFamily": "$font-body",
+                              "fontFamily": "$font-family",
                               "fontSize": 11,
                               "fontWeight": "700"
                             }
@@ -627,9 +631,9 @@
                           "type": "text",
                           "id": "Y4LFBW",
                           "name": "Routed To",
-                          "fill": "$text-secondary",
+                          "fill": "$on-surface-variant",
                           "content": "→ @Node.js先輩 に送信済み",
-                          "fontFamily": "$font-body",
+                          "fontFamily": "$font-family",
                           "fontSize": 12,
                           "fontWeight": "normal"
                         }
@@ -641,8 +645,8 @@
                   "type": "frame",
                   "id": "DJIDV",
                   "name": "Online Chip",
-                  "fill": "#EDF5F0",
-                  "cornerRadius": 99,
+                  "fill": "$tertiary-fixed",
+                  "cornerRadius": "$radius-full",
                   "gap": 6,
                   "padding": [
                     6,
@@ -654,7 +658,7 @@
                       "type": "ellipse",
                       "id": "xzs7B",
                       "name": "Online Dot",
-                      "fill": "$success",
+                      "fill": "$tertiary",
                       "width": 8,
                       "height": 8
                     },
@@ -662,9 +666,9 @@
                       "type": "text",
                       "id": "g9j3nK",
                       "name": "Online Text",
-                      "fill": "$success",
+                      "fill": "$on-tertiary-fixed-variant",
                       "content": "先輩 2人がオンライン",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 12,
                       "fontWeight": "500"
                     }
@@ -697,9 +701,9 @@
                       "type": "text",
                       "id": "SSnjj",
                       "name": "Date Text",
-                      "fill": "$text-secondary",
+                      "fill": "$on-surface-variant",
                       "content": "今日 14:00",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 11,
                       "fontWeight": "normal"
                     }
@@ -750,12 +754,12 @@
                       "id": "gaXkq",
                       "name": "Code Bubble",
                       "width": 560,
-                      "fill": "$bubble-user",
+                      "fill": "$primary",
                       "cornerRadius": [
-                        "$radius-lg",
+                        18,
                         4,
-                        "$radius-lg",
-                        "$radius-lg"
+                        18,
+                        18
                       ],
                       "layout": "vertical",
                       "gap": 10,
@@ -768,12 +772,12 @@
                           "type": "text",
                           "id": "otqPz",
                           "name": "Code Intro",
-                          "fill": "#F5F1EB",
+                          "fill": "$on-primary",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "これです！",
                           "lineHeight": 1.7,
-                          "fontFamily": "$font-body",
+                          "fontFamily": "$font-family",
                           "fontSize": 15,
                           "fontWeight": "normal"
                         },
@@ -782,8 +786,8 @@
                           "id": "MLEb2",
                           "name": "Code Block",
                           "width": "fill_container",
-                          "fill": "#17130F",
-                          "cornerRadius": 8,
+                          "fill": "$inverse-surface",
+                          "cornerRadius": "$radius-sm",
                           "layout": "vertical",
                           "padding": [
                             12,
@@ -794,7 +798,7 @@
                               "type": "text",
                               "id": "wFeTg",
                               "name": "Code Text",
-                              "fill": "#E8A87C",
+                              "fill": "$inverse-on-surface",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "npm ERR! code ERESOLVE\nnpm ERR! Could not resolve dependency:\nnpm ERR! peer react@\"^18.0.0\" from react-dom@18.2.0",
@@ -811,9 +815,9 @@
                       "type": "text",
                       "id": "n7jPl",
                       "name": "Timestamp",
-                      "fill": "$text-secondary",
+                      "fill": "$on-surface-variant",
                       "content": "14:03",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 11,
                       "fontWeight": "normal"
                     }
@@ -863,19 +867,20 @@
                   "id": "t6XEvM",
                   "name": "Input Box",
                   "width": 720,
-                  "fill": "$surface",
-                  "cornerRadius": "$radius-lg",
-                  "stroke": "$border",
+                  "fill": "$surface-container-lowest",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$outline-variant",
                   "strokeWidth": 1,
                   "effect": {
                     "type": "shadow",
                     "shadowType": "outer",
-                    "color": "#241F1A14",
+                    "color": "#4648d41f",
                     "offset": {
                       "x": 0,
-                      "y": 2
+                      "y": 8
                     },
-                    "blur": 12
+                    "blur": 24,
+                    "spread": -4
                   },
                   "gap": 12,
                   "padding": [
@@ -894,17 +899,17 @@
                       "height": 18,
                       "icon": "paperclip",
                       "library": "lucide",
-                      "fill": "$text-secondary"
+                      "fill": "$on-surface-variant"
                     },
                     {
                       "type": "text",
                       "id": "XZJK1",
                       "name": "Placeholder",
-                      "fill": "$text-secondary",
+                      "fill": "$on-surface-variant",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "先輩に質問する…",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 15,
                       "fontWeight": "normal"
                     },
@@ -914,8 +919,8 @@
                       "name": "Send Button",
                       "width": 40,
                       "height": 40,
-                      "fill": "$accent",
-                      "cornerRadius": 12,
+                      "fill": "$primary",
+                      "cornerRadius": "$radius-full",
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
@@ -927,7 +932,7 @@
                           "height": 18,
                           "icon": "send",
                           "library": "lucide",
-                          "fill": "#FFFFFF"
+                          "fill": "$on-primary"
                         }
                       ]
                     }
@@ -937,9 +942,9 @@
                   "type": "text",
                   "id": "sdFnw",
                   "name": "Composer Hint",
-                  "fill": "$text-secondary",
+                  "fill": "$on-surface-variant",
                   "content": "回答するのは人間の先輩です。返信まで少し時間がかかることがあります",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 11,
                   "fontWeight": "normal"
                 }
@@ -958,7 +963,7 @@
       "clip": true,
       "width": 1440,
       "height": 900,
-      "fill": "$bg",
+      "fill": "$surface",
       "children": [
         {
           "type": "frame",
@@ -966,7 +971,11 @@
           "name": "Sidebar",
           "width": 280,
           "height": "fill_container",
-          "fill": "$sidebar-bg",
+          "fill": "$surface-container-lowest",
+          "stroke": "$outline-variant",
+          "strokeWidth": {
+            "right": 1
+          },
           "layout": "vertical",
           "gap": 24,
           "padding": [
@@ -988,8 +997,8 @@
                   "name": "Brand Mark",
                   "width": 32,
                   "height": 32,
-                  "fill": "$accent",
-                  "cornerRadius": 10,
+                  "fill": "$primary",
+                  "cornerRadius": "$radius-sm",
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -1001,7 +1010,7 @@
                       "height": 18,
                       "icon": "graduation-cap",
                       "library": "lucide",
-                      "fill": "#FFFFFF"
+                      "fill": "$on-primary"
                     }
                   ]
                 },
@@ -1016,9 +1025,9 @@
                       "type": "text",
                       "id": "GInKs",
                       "name": "App Name",
-                      "fill": "$sidebar-text",
-                      "content": "先輩に聞く",
-                      "fontFamily": "$font-body",
+                      "fill": "$on-surface",
+                      "content": "LLMSenpai",
+                      "fontFamily": "$font-family",
                       "fontSize": 16,
                       "fontWeight": "700"
                     },
@@ -1026,12 +1035,12 @@
                       "type": "text",
                       "id": "w2rZ0H",
                       "name": "App Sub",
-                      "fill": "$sidebar-muted",
+                      "fill": "$on-surface-variant",
                       "content": "SENPAI AS A MODEL",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 10,
                       "fontWeight": "normal",
-                      "letterSpacing": 1
+                      "letterSpacing": 1.5
                     }
                   ]
                 }
@@ -1042,8 +1051,8 @@
               "id": "VMzhC",
               "name": "New Question Button",
               "width": "fill_container",
-              "fill": "$accent",
-              "cornerRadius": "$radius-md",
+              "fill": "$primary",
+              "cornerRadius": "$radius",
               "gap": 8,
               "padding": [
                 12,
@@ -1060,15 +1069,15 @@
                   "height": 16,
                   "icon": "plus",
                   "library": "lucide",
-                  "fill": "#FFFFFF"
+                  "fill": "$on-primary"
                 },
                 {
                   "type": "text",
                   "id": "LVCbU",
                   "name": "New Label",
-                  "fill": "#FFFFFF",
+                  "fill": "$on-primary",
                   "content": "新しい質問",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 14,
                   "fontWeight": "700"
                 }
@@ -1087,9 +1096,9 @@
                   "type": "text",
                   "id": "o0xcgY",
                   "name": "History Label",
-                  "fill": "$sidebar-muted",
+                  "fill": "$on-surface-variant",
                   "content": "質問履歴",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 11,
                   "fontWeight": "500",
                   "letterSpacing": 1
@@ -1107,7 +1116,7 @@
                       "type": "ref",
                       "ref": "LLoEO",
                       "name": "Active Session",
-                      "fill": "#3A332C",
+                      "fill": "$surface-container",
                       "width": "fill_container",
                       "descendants": {
                         "YBgsR": {
@@ -1115,7 +1124,7 @@
                         },
                         "ROxEG": {
                           "content": "Node.js・先輩が確認中",
-                          "fill": "$accent"
+                          "fill": "$primary"
                         }
                       }
                     },
@@ -1188,8 +1197,8 @@
                   "name": "User Avatar",
                   "width": 32,
                   "height": 32,
-                  "fill": "#4A4238",
-                  "cornerRadius": 16,
+                  "fill": "$surface-container-highest",
+                  "cornerRadius": "$radius-full",
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
@@ -1197,9 +1206,9 @@
                       "type": "text",
                       "id": "e72cj",
                       "name": "User Initial",
-                      "fill": "$sidebar-text",
+                      "fill": "$on-surface",
                       "content": "後",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 13,
                       "fontWeight": "700"
                     }
@@ -1217,9 +1226,9 @@
                       "type": "text",
                       "id": "r4IfAc",
                       "name": "User Name",
-                      "fill": "$sidebar-text",
+                      "fill": "$on-surface",
                       "content": "後輩ユーザー",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 13,
                       "fontWeight": "500"
                     },
@@ -1227,9 +1236,9 @@
                       "type": "text",
                       "id": "ur2TE",
                       "name": "User Status",
-                      "fill": "$sidebar-muted",
+                      "fill": "$on-surface-variant",
                       "content": "y240159@mail...",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 11,
                       "fontWeight": "normal"
                     }
@@ -1243,7 +1252,7 @@
                   "height": 16,
                   "icon": "settings",
                   "library": "lucide",
-                  "fill": "$sidebar-muted"
+                  "fill": "$on-surface-variant"
                 }
               ]
             }
@@ -1274,17 +1283,17 @@
                   "name": "Hero Mark",
                   "width": 72,
                   "height": 72,
-                  "fill": "$accent",
-                  "cornerRadius": 24,
+                  "fill": "$primary",
+                  "cornerRadius": "$radius-md",
                   "effect": {
                     "type": "shadow",
                     "shadowType": "outer",
-                    "color": "#E8590C33",
+                    "color": "#4648d44d",
                     "offset": {
                       "x": 0,
-                      "y": 8
+                      "y": 10
                     },
-                    "blur": 24
+                    "blur": 28
                   },
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -1297,7 +1306,7 @@
                       "height": 40,
                       "icon": "graduation-cap",
                       "library": "lucide",
-                      "fill": "#FFFFFF"
+                      "fill": "$on-primary"
                     }
                   ]
                 },
@@ -1305,9 +1314,9 @@
                   "type": "text",
                   "id": "t3XhQL",
                   "name": "Hero Title",
-                  "fill": "$text-primary",
+                  "fill": "$on-surface",
                   "content": "先輩に、なんでも聞いてみよう",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 28,
                   "fontWeight": "700"
                 },
@@ -1315,13 +1324,13 @@
                   "type": "text",
                   "id": "XA64p",
                   "name": "Hero Sub",
-                  "fill": "$text-secondary",
+                  "fill": "$on-surface-variant",
                   "textGrowth": "fixed-width",
                   "width": 560,
                   "content": "AIではなく、技術が得意な本物の先輩が答えてくれます。質問はDiscordの専門チャンネルに自動で届きます。",
                   "lineHeight": 1.8,
                   "textAlign": "center",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 15,
                   "fontWeight": "normal"
                 },
@@ -1351,9 +1360,9 @@
                           "id": "N6SF2",
                           "name": "Suggest: package.json",
                           "width": "fill_container",
-                          "fill": "$surface",
+                          "fill": "$surface-container-lowest",
                           "cornerRadius": "$radius-md",
-                          "stroke": "$border",
+                          "stroke": "$outline-variant",
                           "strokeWidth": 1,
                           "layout": "vertical",
                           "gap": 8,
@@ -1374,15 +1383,15 @@
                                   "height": 14,
                                   "icon": "terminal",
                                   "library": "lucide",
-                                  "fill": "$accent"
+                                  "fill": "$primary"
                                 },
                                 {
                                   "type": "text",
                                   "id": "Donzw",
                                   "name": "Card Tag",
-                                  "fill": "$accent",
+                                  "fill": "$primary",
                                   "content": "package.json",
-                                  "fontFamily": "$font-body",
+                                  "fontFamily": "$font-family",
                                   "fontSize": 11,
                                   "fontWeight": "700",
                                   "letterSpacing": 0.5
@@ -1393,12 +1402,12 @@
                               "type": "text",
                               "id": "ByPpa",
                               "name": "Card Question",
-                              "fill": "$text-primary",
+                              "fill": "$on-surface",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "npm installでエラーが出て進めません",
                               "lineHeight": 1.6,
-                              "fontFamily": "$font-body",
+                              "fontFamily": "$font-family",
                               "fontSize": 13,
                               "fontWeight": "normal"
                             }
@@ -1409,9 +1418,9 @@
                           "id": "YNqsm",
                           "name": "Suggest: React",
                           "width": "fill_container",
-                          "fill": "$surface",
+                          "fill": "$surface-container-lowest",
                           "cornerRadius": "$radius-md",
-                          "stroke": "$border",
+                          "stroke": "$outline-variant",
                           "strokeWidth": 1,
                           "layout": "vertical",
                           "gap": 8,
@@ -1432,15 +1441,15 @@
                                   "height": 14,
                                   "icon": "code",
                                   "library": "lucide",
-                                  "fill": "$accent"
+                                  "fill": "$primary"
                                 },
                                 {
                                   "type": "text",
                                   "id": "bTx42",
                                   "name": "Card Tag",
-                                  "fill": "$accent",
+                                  "fill": "$primary",
                                   "content": "React",
-                                  "fontFamily": "$font-body",
+                                  "fontFamily": "$font-family",
                                   "fontSize": 11,
                                   "fontWeight": "700",
                                   "letterSpacing": 0.5
@@ -1451,12 +1460,12 @@
                               "type": "text",
                               "id": "F5wn2V",
                               "name": "Card Question",
-                              "fill": "$text-primary",
+                              "fill": "$on-surface",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "useStateとuseEffectの違いがわかりません",
                               "lineHeight": 1.6,
-                              "fontFamily": "$font-body",
+                              "fontFamily": "$font-family",
                               "fontSize": 13,
                               "fontWeight": "normal"
                             }
@@ -1476,9 +1485,9 @@
                           "id": "sTpwI",
                           "name": "Suggest: Git",
                           "width": "fill_container",
-                          "fill": "$surface",
+                          "fill": "$surface-container-lowest",
                           "cornerRadius": "$radius-md",
-                          "stroke": "$border",
+                          "stroke": "$outline-variant",
                           "strokeWidth": 1,
                           "layout": "vertical",
                           "gap": 8,
@@ -1499,15 +1508,15 @@
                                   "height": 14,
                                   "icon": "git-branch",
                                   "library": "lucide",
-                                  "fill": "$accent"
+                                  "fill": "$primary"
                                 },
                                 {
                                   "type": "text",
                                   "id": "I7yyt",
                                   "name": "Card Tag",
-                                  "fill": "$accent",
+                                  "fill": "$primary",
                                   "content": "Git",
-                                  "fontFamily": "$font-body",
+                                  "fontFamily": "$font-family",
                                   "fontSize": 11,
                                   "fontWeight": "700",
                                   "letterSpacing": 0.5
@@ -1518,12 +1527,12 @@
                               "type": "text",
                               "id": "jlznC",
                               "name": "Card Question",
-                              "fill": "$text-primary",
+                              "fill": "$on-surface",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "mergeでconflictが起きて困っています",
                               "lineHeight": 1.6,
-                              "fontFamily": "$font-body",
+                              "fontFamily": "$font-family",
                               "fontSize": 13,
                               "fontWeight": "normal"
                             }
@@ -1534,9 +1543,9 @@
                           "id": "iq9Dr",
                           "name": "Suggest: 環境構築",
                           "width": "fill_container",
-                          "fill": "$surface",
+                          "fill": "$surface-container-lowest",
                           "cornerRadius": "$radius-md",
-                          "stroke": "$border",
+                          "stroke": "$outline-variant",
                           "strokeWidth": 1,
                           "layout": "vertical",
                           "gap": 8,
@@ -1557,15 +1566,15 @@
                                   "height": 14,
                                   "icon": "wrench",
                                   "library": "lucide",
-                                  "fill": "$accent"
+                                  "fill": "$primary"
                                 },
                                 {
                                   "type": "text",
                                   "id": "dvf7L",
                                   "name": "Card Tag",
-                                  "fill": "$accent",
+                                  "fill": "$primary",
                                   "content": "環境構築",
-                                  "fontFamily": "$font-body",
+                                  "fontFamily": "$font-family",
                                   "fontSize": 11,
                                   "fontWeight": "700",
                                   "letterSpacing": 0.5
@@ -1576,12 +1585,12 @@
                               "type": "text",
                               "id": "JyxEs",
                               "name": "Card Question",
-                              "fill": "$text-primary",
+                              "fill": "$on-surface",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
                               "content": "Pythonの仮想環境の作り方を教えてほしい",
                               "lineHeight": 1.6,
-                              "fontFamily": "$font-body",
+                              "fontFamily": "$font-family",
                               "fontSize": 13,
                               "fontWeight": "normal"
                             }
@@ -1613,19 +1622,20 @@
                   "id": "mVYAt",
                   "name": "Input Box",
                   "width": 720,
-                  "fill": "$surface",
-                  "cornerRadius": "$radius-lg",
-                  "stroke": "$border",
+                  "fill": "$surface-container-lowest",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$outline-variant",
                   "strokeWidth": 1,
                   "effect": {
                     "type": "shadow",
                     "shadowType": "outer",
-                    "color": "#241F1A14",
+                    "color": "#4648d41f",
                     "offset": {
                       "x": 0,
-                      "y": 2
+                      "y": 8
                     },
-                    "blur": 12
+                    "blur": 24,
+                    "spread": -4
                   },
                   "gap": 12,
                   "padding": [
@@ -1644,17 +1654,17 @@
                       "height": 18,
                       "icon": "paperclip",
                       "library": "lucide",
-                      "fill": "$text-secondary"
+                      "fill": "$on-surface-variant"
                     },
                     {
                       "type": "text",
                       "id": "nWZGF",
                       "name": "Placeholder",
-                      "fill": "$text-secondary",
+                      "fill": "$on-surface-variant",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "先輩に質問する…",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "$font-family",
                       "fontSize": 15,
                       "fontWeight": "normal"
                     },
@@ -1664,8 +1674,8 @@
                       "name": "Send Button",
                       "width": 40,
                       "height": 40,
-                      "fill": "$accent",
-                      "cornerRadius": 12,
+                      "fill": "$primary",
+                      "cornerRadius": "$radius-full",
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
@@ -1677,7 +1687,7 @@
                           "height": 18,
                           "icon": "send",
                           "library": "lucide",
-                          "fill": "#FFFFFF"
+                          "fill": "$on-primary"
                         }
                       ]
                     }
@@ -1687,9 +1697,9 @@
                   "type": "text",
                   "id": "K22sh0",
                   "name": "Composer Hint",
-                  "fill": "$text-secondary",
+                  "fill": "$on-surface-variant",
                   "content": "質問内容から言語・技術を自動判定して、担当の先輩に届けます",
-                  "fontFamily": "$font-body",
+                  "fontFamily": "$font-family",
                   "fontSize": 11,
                   "fontWeight": "normal"
                 }
@@ -1701,65 +1711,153 @@
     }
   ],
   "variables": {
-    "bg": {
-      "type": "color",
-      "value": "#F7F5F1"
-    },
     "surface": {
       "type": "color",
-      "value": "#FFFFFF"
-    },
-    "sidebar-bg": {
-      "type": "color",
-      "value": "#211D19"
-    },
-    "sidebar-text": {
-      "type": "color",
-      "value": "#E9E4DC"
-    },
-    "sidebar-muted": {
-      "type": "color",
-      "value": "#9C948A"
-    },
-    "accent": {
-      "type": "color",
-      "value": "#E8590C"
-    },
-    "accent-soft": {
-      "type": "color",
-      "value": "#FCEEE4"
-    },
-    "text-primary": {
-      "type": "color",
-      "value": "#241F1A"
-    },
-    "text-secondary": {
-      "type": "color",
-      "value": "#6E655B"
-    },
-    "border": {
-      "type": "color",
-      "value": "#E5DFD6"
-    },
-    "bubble-user": {
-      "type": "color",
-      "value": "#2E2721"
-    },
-    "success": {
-      "type": "color",
-      "value": "#3D8B5F"
-    },
-    "font-body": {
-      "type": "string",
-      "value": "Noto Sans JP"
+      "value": "#f9f9ff"
     },
     "radius-lg": {
       "type": "number",
-      "value": 16
+      "value": 32
     },
     "radius-md": {
       "type": "number",
-      "value": 10
+      "value": 24
+    },
+    "radius-xl": {
+      "type": "number",
+      "value": 48
+    },
+    "surface-dim": {
+      "type": "color",
+      "value": "#cfdaf2"
+    },
+    "surface-container-lowest": {
+      "type": "color",
+      "value": "#ffffff"
+    },
+    "surface-container-low": {
+      "type": "color",
+      "value": "#f0f3ff"
+    },
+    "surface-container": {
+      "type": "color",
+      "value": "#e7eeff"
+    },
+    "surface-container-high": {
+      "type": "color",
+      "value": "#dee8ff"
+    },
+    "surface-container-highest": {
+      "type": "color",
+      "value": "#d8e3fb"
+    },
+    "on-surface": {
+      "type": "color",
+      "value": "#111c2d"
+    },
+    "on-surface-variant": {
+      "type": "color",
+      "value": "#464554"
+    },
+    "inverse-surface": {
+      "type": "color",
+      "value": "#263143"
+    },
+    "inverse-on-surface": {
+      "type": "color",
+      "value": "#ecf1ff"
+    },
+    "outline": {
+      "type": "color",
+      "value": "#767586"
+    },
+    "outline-variant": {
+      "type": "color",
+      "value": "#c7c4d7"
+    },
+    "primary": {
+      "type": "color",
+      "value": "#4648d4"
+    },
+    "on-primary": {
+      "type": "color",
+      "value": "#ffffff"
+    },
+    "primary-container": {
+      "type": "color",
+      "value": "#6063ee"
+    },
+    "primary-fixed": {
+      "type": "color",
+      "value": "#e1e0ff"
+    },
+    "on-primary-fixed-variant": {
+      "type": "color",
+      "value": "#2f2ebe"
+    },
+    "secondary-container": {
+      "type": "color",
+      "value": "#ffc329"
+    },
+    "on-secondary-container": {
+      "type": "color",
+      "value": "#6f5100"
+    },
+    "secondary-fixed": {
+      "type": "color",
+      "value": "#ffdf9f"
+    },
+    "tertiary": {
+      "type": "color",
+      "value": "#006949"
+    },
+    "on-tertiary": {
+      "type": "color",
+      "value": "#ffffff"
+    },
+    "tertiary-container": {
+      "type": "color",
+      "value": "#00855d"
+    },
+    "tertiary-fixed": {
+      "type": "color",
+      "value": "#68fcbf"
+    },
+    "on-tertiary-fixed-variant": {
+      "type": "color",
+      "value": "#005137"
+    },
+    "error": {
+      "type": "color",
+      "value": "#ba1a1a"
+    },
+    "on-error": {
+      "type": "color",
+      "value": "#ffffff"
+    },
+    "error-container": {
+      "type": "color",
+      "value": "#ffdad6"
+    },
+    "on-error-container": {
+      "type": "color",
+      "value": "#93000a"
+    },
+    "font-family": {
+      "type": "string",
+      "value": "Outfit"
+    },
+    "radius-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "radius": {
+      "type": "number",
+      "value": 16
+    },
+    "radius-full": {
+      "type": "number",
+      "value": 9999
     }
   },
   "fileToken": "c4da5546-f608-4baf-8324-8c7bd81b5220"
