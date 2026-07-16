@@ -162,7 +162,7 @@ sequenceDiagram
 | フロントエンド（後輩用Web UI） | Next.js (React) | 雛形のみ |
 | **フロントエンド（先輩用ダッシュボード）** | Next.js (React) | **未着手（v2の主要開発対象）** |
 | リアルタイム通信 | SSE（API用）/ WebSocket or SSE（Web UI・ダッシュボード用） | 一部実装済み |
-| **認証・認可** | **Discord OAuth2（`identify`）＋ Bot によるギルド所属・ロール照会** | **未着手（v2.1で新設。§5.7）** |
+| **認証・認可** | **Discord OAuth2（`identify`）＋ Bot によるギルド所属・ロール照会** | **バックエンド実装済み（OAuthフロー・JWT Cookieセッション・認可ミドルウェア。§5.7 / #10）。フロント（ログイン画面）は次段階** |
 | デザイン | `ui/web_llm_ui.pen`（Pencil） | 作成中 |
 
 ---
