@@ -46,7 +46,6 @@ RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 # Copy built assets and dependencies from builder-api
 COPY --from=builder-api /app /app
-EXPOSE 7070
 ENV NODE_ENV=production
-ENV PORT=7070
+# PORT is provided by Render at runtime; the app reads process.env.PORT.
 CMD ["/app/apps/api/start.sh"]
