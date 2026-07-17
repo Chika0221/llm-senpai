@@ -86,11 +86,11 @@ function Home() {
                 質問をはじめる
               </a>
             )}
-            <p className="mt-4 text-center text-xs leading-5 text-on-surface-variant">
-              ※ 遷移先の画面（
-              {isSenpai ? "質問キュー・回答" : "質問フォーム"}
-              ）は次の Issue で実装予定です。
-            </p>
+            {!isSenpai && (
+              <p className="mt-4 text-center text-xs leading-5 text-on-surface-variant">
+                ※ 質問フォーム画面は次の Issue で実装予定です。
+              </p>
+            )}
           </div>
         </div>
       </main>
