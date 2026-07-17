@@ -1,4 +1,4 @@
-# 先輩質問システム（Human as LLM）開発ロードマップ
+# LLMSenpai（Human as LLM）開発ロードマップ
 
 `docs/specification.md` の要件に基づき、ユーザー主導・AI（私）サポート型で進めるためのロードマップです。
 

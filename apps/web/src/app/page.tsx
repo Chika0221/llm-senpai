@@ -1,65 +1,107 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Image from "next/image";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth-context";
+
+function RoleChip({ role }: { role: "KISO" | "HATTEN" }) {
+  const isSenpai = role === "HATTEN";
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <span
+      className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide ${
+        isSenpai
+          ? "bg-secondary-container text-on-secondary-container"
+          : "bg-primary/10 text-primary"
+      }`}
+    >
+      {isSenpai ? "発展班（先輩）" : "基礎班（後輩）"}
+    </span>
+  );
+}
+
+function Home() {
+  const { user, logout } = useAuth();
+  if (!user) return null;
+
+  const isSenpai = user.role === "HATTEN";
+
+  return (
+    <div className="flex flex-1 flex-col">
+      {/* ヘッダー: ログインユーザーとログアウト */}
+      <header className="flex items-center justify-between px-6 py-5 sm:px-10">
+        <span className="text-lg font-extrabold tracking-tight text-on-surface">
+          LLMSenpai
+        </span>
+        <div className="flex items-center gap-3">
+          {user.avatarUrl && (
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={user.avatarUrl}
+              alt=""
+              width={36}
+              height={36}
+              className="rounded-full"
+              unoptimized
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          )}
+          <span className="hidden text-sm font-semibold text-on-surface sm:inline">
+            {user.displayName ?? "メンバー"}
+          </span>
+          <button
+            type="button"
+            onClick={() => void logout()}
+            className="rounded-full border-2 border-outline-variant px-4 py-1.5 text-sm font-bold text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
           >
-            Documentation
-          </a>
+            ログアウト
+          </button>
+        </div>
+      </header>
+
+      <main className="flex flex-1 flex-col items-center justify-center px-6 py-12">
+        <div className="w-full max-w-2xl rounded-xl bg-surface-container-lowest p-8 shadow-[var(--shadow-raised)] sm:p-12">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <RoleChip role={user.role} />
+            <h1 className="text-3xl font-extrabold tracking-tight text-on-surface">
+              ようこそ、{user.displayName ?? "メンバー"}さん
+            </h1>
+            <p className="max-w-md text-base leading-7 text-on-surface-variant">
+              {isSenpai
+                ? "先輩用のダッシュボードから、後輩の質問に回答できます。"
+                : "わからないことは気軽に質問してみましょう。"}
+            </p>
+          </div>
+
+          <div className="mt-10">
+            {isSenpai ? (
+              <a
+                href="/dashboard"
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-lg font-bold text-on-primary shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary-container hover:shadow-[var(--shadow-active)]"
+              >
+                先輩ダッシュボードへ
+              </a>
+            ) : (
+              <a
+                href="/chat"
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-lg font-bold text-on-primary shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary-container hover:shadow-[var(--shadow-active)]"
+              >
+                質問をはじめる
+              </a>
+            )}
+            <p className="mt-4 text-center text-xs leading-5 text-on-surface-variant">
+              ※ 遷移先の画面（
+              {isSenpai ? "質問キュー・回答" : "質問フォーム"}
+              ）は次の Issue で実装予定です。
+            </p>
+          </div>
         </div>
       </main>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <AuthGate>
+      <Home />
+    </AuthGate>
   );
 }
