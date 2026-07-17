@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loginUrl } from "@/lib/api";
+import { devLoginUrl, fetchAuthConfig, loginUrl } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 
 // コールバックで付与されるエラーコード（apps/api/src/routes/auth.ts）に対応する文言。
@@ -36,6 +36,17 @@ function LoginCard() {
   const errorMessage = errorCode
     ? (ERROR_MESSAGES[errorCode] ?? "ログインに失敗しました。もう一度お試しください。")
     : null;
+
+  // 開発用: Discord 認証バイパスが有効かをバックエンドに問い合わせる
+  const [devBypass, setDevBypass] = useState(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    // 外部システム（API）への問い合わせ。setState は解決後のコールバックで走る。
+    void fetchAuthConfig(controller.signal).then((cfg) => {
+      if (!controller.signal.aborted) setDevBypass(cfg.devBypass);
+    });
+    return () => controller.abort();
+  }, []);
 
   // 既にログイン済みならホームへ戻す
   useEffect(() => {
@@ -83,6 +94,29 @@ function LoginCard() {
           <br />
           対象サーバーの所属とロールで、後輩／先輩を判定します。
         </p>
+
+        {/* 開発用: Discord 認証をバイパスして役割を選んでログイン */}
+        {devBypass && (
+          <div className="mt-8 rounded-md border-2 border-dashed border-secondary-container bg-secondary-container/20 p-4">
+            <p className="mb-3 text-center text-xs font-bold tracking-wide text-on-secondary-container">
+              🛠 開発モード（Discord 認証バイパス中）
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <a
+                href={devLoginUrl("KISO")}
+                className="flex h-11 flex-1 items-center justify-center rounded-full border-2 border-primary px-4 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-on-primary"
+              >
+                後輩（基礎班）で入る
+              </a>
+              <a
+                href={devLoginUrl("HATTEN")}
+                className="flex h-11 flex-1 items-center justify-center rounded-full bg-primary px-4 text-sm font-bold text-on-primary transition-colors hover:bg-primary-container"
+              >
+                先輩（発展班）で入る
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
