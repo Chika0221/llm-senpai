@@ -1,4 +1,4 @@
-# AGENTS.md — 先輩質問システム（Human as LLM）
+# AGENTS.md — LLMSenpai（Human as LLM）
 
 AIコーディングエージェント向けのプロジェクトガイドです。詳細は `docs/` 配下の各ドキュメントを参照してください。
 
