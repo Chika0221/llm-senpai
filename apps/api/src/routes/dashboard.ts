@@ -128,3 +128,205 @@ dashboardRouter.get('/sessions', async (c) => {
 
   return c.json({ sessions, counts });
 });
+
+// --- 回答画面（§5.2 / §8 回答画面。Issue #3・#4） ---
+
+// 会話履歴の1メッセージ分のDTO
+interface MessageDTO {
+  id: string;
+  role: string; // USER | ASSISTANT | TOOL
+  content: string;
+  commandName: string | null; // コマンド系メッセージのみ
+  toolCallId: string | null;
+  approvalStatus: string | null; // コマンド承認状態（§5.4）
+  createdAt: string;
+}
+
+// 回答画面用のセッション詳細DTO（キューカードDTO＋全メッセージ履歴）
+interface SessionDetailDTO extends QueueSessionDTO {
+  messages: MessageDTO[];
+}
+
+// 全メッセージを時系列で含めてセッションを取得するための include 定義
+const withAllMessages = {
+  messages: { orderBy: { createdAt: 'asc' as const } },
+  _count: { select: { messages: true } },
+};
+
+type SessionWithAllMessages = Prisma.SessionGetPayload<{
+  include: typeof withAllMessages;
+}>;
+
+function toDetailDTO(session: SessionWithAllMessages): SessionDetailDTO {
+  const firstUserMessage = session.messages.find((m) => m.role === 'USER')?.content ?? '';
+  return {
+    id: session.id,
+    queueStatus: toQueueStatus(session.status, session.assigneeId),
+    status: session.status,
+    source: session.source,
+    title: session.title ?? toTitle(firstUserMessage),
+    preview: firstUserMessage,
+    topic: session.topic,
+    assigneeId: session.assigneeId,
+    assigneeName: session.assigneeName,
+    requesterId: session.requesterId,
+    messageCount: session._count.messages,
+    createdAt: session.createdAt.toISOString(),
+    updatedAt: session.updatedAt.toISOString(),
+    messages: session.messages.map((m) => ({
+      id: m.id,
+      role: m.role,
+      content: m.content,
+      commandName: m.commandName,
+      toolCallId: m.toolCallId,
+      approvalStatus: m.approvalStatus,
+      createdAt: m.createdAt.toISOString(),
+    })),
+  };
+}
+
+/**
+ * GET /dashboard/sessions/:id
+ * 回答画面用にセッション1件の詳細（会話履歴込み）を返す（§5.2）。
+ */
+dashboardRouter.get('/sessions/:id', async (c) => {
+  const id = c.req.param('id');
+  const session = await db.session.findUnique({
+    where: { id },
+    include: withAllMessages,
+  });
+  if (!session) {
+    return c.json({ error: { message: 'セッションが見つかりません', type: 'not_found' } }, 404);
+  }
+  return c.json({ session: toDetailDTO(session) });
+});
+
+/**
+ * POST /dashboard/sessions/:id/assign
+ * 担当ロックを取得する（§5.2 重複回答防止・Issue #4）。
+ * - 未担当なら自分を担当としてロック
+ * - 既に自分が担当なら冪等に成功
+ * - 他の先輩が担当中なら 409（重複回答防止）
+ */
+dashboardRouter.post('/sessions/:id/assign', async (c) => {
+  const id = c.req.param('id');
+  const user = c.get('user');
+
+  const session = await db.session.findUnique({ where: { id } });
+  if (!session) {
+    return c.json({ error: { message: 'セッションが見つかりません', type: 'not_found' } }, 404);
+  }
+
+  // 既に他の先輩が担当中なら弾く（自分自身の再取得は許可）
+  if (session.assigneeId && session.assigneeId !== user.sub) {
+    return c.json(
+      {
+        error: {
+          message: `既に ${session.assigneeName ?? '他の先輩'} が対応中です`,
+          type: 'conflict',
+        },
+      },
+      409
+    );
+  }
+
+  const updated = await db.session.update({
+    where: { id },
+    data: {
+      assigneeId: user.sub,
+      assigneeName: user.displayName ?? '先輩',
+    },
+    include: withAllMessages,
+  });
+  return c.json({ session: toDetailDTO(updated) });
+});
+
+/**
+ * DELETE /dashboard/sessions/:id/assign
+ * 担当ロックを解除する（自分が担当の場合のみ）。
+ */
+dashboardRouter.delete('/sessions/:id/assign', async (c) => {
+  const id = c.req.param('id');
+  const user = c.get('user');
+
+  const session = await db.session.findUnique({ where: { id } });
+  if (!session) {
+    return c.json({ error: { message: 'セッションが見つかりません', type: 'not_found' } }, 404);
+  }
+  // 他人のロックは解除させない
+  if (session.assigneeId && session.assigneeId !== user.sub) {
+    return c.json(
+      { error: { message: '自分が担当していないセッションは解除できません', type: 'forbidden' } },
+      403
+    );
+  }
+
+  const updated = await db.session.update({
+    where: { id },
+    data: { assigneeId: null, assigneeName: null },
+    include: withAllMessages,
+  });
+  return c.json({ session: toDetailDTO(updated) });
+});
+
+/**
+ * POST /dashboard/sessions/:id/reply
+ * テキスト回答を送信する（§5.2 回答フォーム＆ルーティング・Issue #3）。
+ * - ASSISTANT メッセージとして保存し、セッションを COMPLETED にする
+ *   → chatService のポーリングが検知し、正しい後輩のSSEストリームへ自動配信される（構造的ルーティング）
+ * - 未担当なら回答者を自動的に担当としても記録する（§5.7 監査・紐付け）
+ */
+dashboardRouter.post('/sessions/:id/reply', async (c) => {
+  const id = c.req.param('id');
+  const user = c.get('user');
+
+  const body = await c.req.json().catch(() => null);
+  const content = typeof body?.content === 'string' ? body.content.trim() : '';
+  if (!content) {
+    return c.json(
+      { error: { message: '回答内容が空です', type: 'invalid_request' } },
+      400
+    );
+  }
+
+  const session = await db.session.findUnique({ where: { id } });
+  if (!session) {
+    return c.json({ error: { message: 'セッションが見つかりません', type: 'not_found' } }, 404);
+  }
+
+  // 担当ロック中の他の先輩による回答は弾く（§5.2 重複回答防止）。
+  // 未担当なら回答者を自動的に担当として記録する。
+  if (session.assigneeId && session.assigneeId !== user.sub) {
+    return c.json(
+      {
+        error: {
+          message: `既に ${session.assigneeName ?? '他の先輩'} が対応中です`,
+          type: 'conflict',
+        },
+      },
+      409
+    );
+  }
+
+  // 回答を保存し、セッションを完了へ。未担当なら回答者を担当として記録する。
+  const [, updated] = await db.$transaction([
+    db.message.create({
+      data: {
+        sessionId: id,
+        role: 'ASSISTANT',
+        content,
+      },
+    }),
+    db.session.update({
+      where: { id },
+      data: {
+        status: 'COMPLETED',
+        assigneeId: session.assigneeId ?? user.sub,
+        assigneeName: session.assigneeName ?? user.displayName ?? '先輩',
+      },
+      include: withAllMessages,
+    }),
+  ]);
+
+  return c.json({ session: toDetailDTO(updated) });
+});

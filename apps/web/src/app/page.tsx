@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AuthGate } from "@/components/AuthGate";
 import { useAuth } from "@/lib/auth-context";
 
@@ -72,12 +73,12 @@ function Home() {
 
           <div className="mt-10">
             {isSenpai ? (
-              <a
+              <Link
                 href="/dashboard"
                 className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-lg font-bold text-on-primary shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary-container hover:shadow-[var(--shadow-active)]"
               >
                 先輩ダッシュボードへ
-              </a>
+              </Link>
             ) : (
               <a
                 href="/chat"

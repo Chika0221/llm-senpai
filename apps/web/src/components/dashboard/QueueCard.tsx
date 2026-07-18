@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { formatElapsed, type QueueSession } from "@/lib/dashboard";
 
 // ステータス別のチップ表示（ラベルと配色）
@@ -44,8 +45,9 @@ export function QueueCard({
   const body = session.preview?.trim() || session.title;
 
   return (
-    <article
-      className={`rounded-md bg-surface-container-lowest p-5 shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-active)] ${
+    <Link
+      href={`/dashboard/${session.id}`}
+      className={`block rounded-md bg-surface-container-lowest p-5 shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[var(--shadow-active)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
         isNew ? "ring-2 ring-primary/40" : ""
       }`}
     >
@@ -94,6 +96,6 @@ export function QueueCard({
           <span className="text-on-surface-variant">未担当</span>
         )}
       </div>
-    </article>
+    </Link>
   );
 }
