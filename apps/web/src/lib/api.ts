@@ -16,6 +16,27 @@ export type AuthUser = {
 // Discord OAuth2 ログイン開始URL（フルページ遷移で叩く。/auth/discord が認可画面へリダイレクト）
 export const loginUrl = () => `${API_BASE_URL}/auth/discord`;
 
+// 開発用: Discord を介さず役割を選んでログインするURL（DEV_AUTH_BYPASS 有効時のみ機能）
+export const devLoginUrl = (role: Role) =>
+  `${API_BASE_URL}/auth/dev/login?role=${role}`;
+
+// フロントの認証設定。開発用バイパスが有効かをログイン画面が判定するのに使う。
+export async function fetchAuthConfig(
+  signal?: AbortSignal,
+): Promise<{ devBypass: boolean }> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/config`, {
+      method: "GET",
+      credentials: "include",
+      signal,
+    });
+    if (!res.ok) return { devBypass: false };
+    return (await res.json()) as { devBypass: boolean };
+  } catch {
+    return { devBypass: false };
+  }
+}
+
 // ログイン状態の取得。未ログイン時は API が 401 を返すため null を返す。
 export async function fetchMe(signal?: AbortSignal): Promise<AuthUser | null> {
   const res = await fetch(`${API_BASE_URL}/auth/me`, {

@@ -4,9 +4,15 @@ import { Hono } from 'hono'
 import { initDiscordBot } from './discord/index.js'
 import { chatRouter } from './routes/chat.js'
 import { authRouter } from './routes/auth.js'
+import { dashboardRouter } from './routes/dashboard.js'
+import { kohaiRouter } from './routes/kohai.js'
 import { requireMember } from './middleware/auth.js'
 import type { AuthVariables } from './middleware/auth.js'
-import { WEB_ORIGIN } from './env.js'
+import { WEB_ORIGIN, DEV_AUTH_BYPASS } from './env.js'
+
+if (DEV_AUTH_BYPASS) {
+  console.warn('⚠️⚠️ DEV_AUTH_BYPASS 有効: Discord 認証をバイパスしています（開発用・本番では無効）')
+}
 
 import { cors } from 'hono/cors'
 
@@ -24,6 +30,12 @@ app.get('/', (c) => {
 
 // 認証・認可（§5.7）
 app.route('/auth', authRouter)
+
+// 先輩ダッシュボード配下API（§5.2）。ルーター内で発展班のみに認可制限する
+app.route('/dashboard', dashboardRouter)
+
+// 後輩側のコマンド実行 承認フローAPI（§5.4）。ルーター内で部員全員に許可する
+app.route('/kohai', kohaiRouter)
 
 // 質問受付API（OpenAI互換）は部員全員に許可（Cookie or Bearer JWT）
 app.use('/v1/*', requireMember)
