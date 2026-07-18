@@ -3,6 +3,7 @@ import { db } from '../lib/db.js';
 import { requireHatten } from '../middleware/auth.js';
 import type { AuthVariables } from '../middleware/auth.js';
 import type { Prisma, SessionStatus } from '@prisma/client';
+import { assessCommand } from '../lib/dangerousCommand.js';
 
 // 先輩ダッシュボード配下のAPI（§5.2 / §5.7）。
 // キュー取得・担当ロック・回答送信などを束ねる。発展班（先輩）のみアクセス可。
@@ -139,6 +140,8 @@ interface MessageDTO {
   commandName: string | null; // コマンド系メッセージのみ
   toolCallId: string | null;
   approvalStatus: string | null; // コマンド承認状態（§5.4）
+  // コマンド系メッセージの危険度警告（§5.4）。通常メッセージは null
+  danger: { isDangerous: boolean; reasons: string[] } | null;
   createdAt: string;
 }
 
@@ -173,15 +176,25 @@ function toDetailDTO(session: SessionWithAllMessages): SessionDetailDTO {
     messageCount: session._count.messages,
     createdAt: session.createdAt.toISOString(),
     updatedAt: session.updatedAt.toISOString(),
-    messages: session.messages.map((m) => ({
-      id: m.id,
-      role: m.role,
-      content: m.content,
-      commandName: m.commandName,
-      toolCallId: m.toolCallId,
-      approvalStatus: m.approvalStatus,
-      createdAt: m.createdAt.toISOString(),
-    })),
+    messages: session.messages.map((m) => {
+      // コマンド系メッセージ（commandName あり）のみ危険度を評価して載せる
+      const danger = m.commandName
+        ? (() => {
+            const a = assessCommand(m.content);
+            return { isDangerous: a.isDangerous, reasons: a.reasons };
+          })()
+        : null;
+      return {
+        id: m.id,
+        role: m.role,
+        content: m.content,
+        commandName: m.commandName,
+        toolCallId: m.toolCallId,
+        approvalStatus: m.approvalStatus,
+        danger,
+        createdAt: m.createdAt.toISOString(),
+      };
+    }),
   };
 }
 
@@ -329,4 +342,78 @@ dashboardRouter.post('/sessions/:id/reply', async (c) => {
   ]);
 
   return c.json({ session: toDetailDTO(updated) });
+});
+
+// シェル種別 → OpenAI Tool Call 名の対応（既存の Discord 経路と揃える）
+const SHELL_TO_TOOL: Record<string, string> = {
+  bash: 'run_bash',
+  sh: 'run_bash',
+  zsh: 'run_bash',
+  powershell: 'run_powershell',
+  pwsh: 'run_powershell',
+};
+
+/**
+ * POST /dashboard/sessions/:id/command
+ * 先輩がダッシュボードから後輩のシェルでコマンドを実行させる（§5.2 コマンド送信）。
+ * 安全設計（§5.4）:
+ * - 承認状態 PENDING で保存し、後輩の承認まで実行されない前提でセッションを EXECUTING に
+ * - 危険コマンドを検知して警告を返す（後輩の承認プロンプトでも再掲する）
+ * - 担当ロックを尊重し、他の先輩が担当中なら 409
+ */
+dashboardRouter.post('/sessions/:id/command', async (c) => {
+  const id = c.req.param('id');
+  const user = c.get('user');
+
+  const body = await c.req.json().catch(() => null);
+  const command = typeof body?.command === 'string' ? body.command.trim() : '';
+  const shell = typeof body?.shell === 'string' ? body.shell.toLowerCase() : 'bash';
+  if (!command) {
+    return c.json({ error: { message: 'コマンドが空です', type: 'invalid_request' } }, 400);
+  }
+  const commandName = SHELL_TO_TOOL[shell] ?? 'run_bash';
+
+  const session = await db.session.findUnique({ where: { id } });
+  if (!session) {
+    return c.json({ error: { message: 'セッションが見つかりません', type: 'not_found' } }, 404);
+  }
+  // 担当ロック中の他の先輩による送信は弾く（§5.2 重複防止）
+  if (session.assigneeId && session.assigneeId !== user.sub) {
+    return c.json(
+      {
+        error: { message: `既に ${session.assigneeName ?? '他の先輩'} が対応中です`, type: 'conflict' },
+      },
+      409
+    );
+  }
+
+  // 危険コマンドの検知（§5.4）。ブロックはせず警告として返し、最終判断は後輩の承認に委ねる。
+  const danger = assessCommand(command);
+
+  const [, updated] = await db.$transaction([
+    db.message.create({
+      data: {
+        sessionId: id,
+        role: 'ASSISTANT',
+        content: command,
+        commandName,
+        toolCallId: `call_${id.slice(0, 8)}_${session.updatedAt.getTime()}`,
+        approvalStatus: 'PENDING', // 後輩の実行前承認を必須にする（§5.4）
+      },
+    }),
+    db.session.update({
+      where: { id },
+      data: {
+        status: 'EXECUTING',
+        assigneeId: session.assigneeId ?? user.sub,
+        assigneeName: session.assigneeName ?? user.displayName ?? '先輩',
+      },
+      include: withAllMessages,
+    }),
+  ]);
+
+  return c.json({
+    session: toDetailDTO(updated),
+    danger: { isDangerous: danger.isDangerous, reasons: danger.reasons },
+  });
 });

@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import { db } from '../../lib/db.js';
+import { assessCommand } from '../../lib/dangerousCommand.js';
 
 export const handleMessageCreate = async (message: Message) => {
   // Bot自身のメッセージは無視する
@@ -28,8 +29,15 @@ export const handleMessageCreate = async (message: Message) => {
     }
 
     console.log(`[Discord] 🔧 Detected Tool Call (${commandName}): ${command}`);
-    
-    // DBにTool CallとしてMessageを保存し、セッションをEXECUTINGに変更
+
+    // 危険コマンドの検知（§5.4）。ブロックはせず警告ログを残し、最終判断は後輩の承認に委ねる。
+    const danger = assessCommand(command);
+    if (danger.isDangerous) {
+      console.warn(`[Discord] ⚠️ 危険なコマンドを検知: ${danger.reasons.join(' / ')}`);
+    }
+
+    // DBにTool CallとしてMessageを保存し、セッションをEXECUTINGに変更。
+    // 後輩の実行前承認（§5.4）を必須にするため approvalStatus=PENDING で保存する。
     await db.$transaction([
       db.message.create({
         data: {
@@ -38,6 +46,7 @@ export const handleMessageCreate = async (message: Message) => {
           content: command,
           commandName: commandName,
           toolCallId: `call_${Date.now()}`,
+          approvalStatus: 'PENDING',
           discordMessageId: message.id,
         }
       }),
