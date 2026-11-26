@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AuthGate } from "@/components/AuthGate";
 import { useAuth } from "@/lib/auth-context";
 
@@ -72,12 +73,12 @@ function Home() {
 
           <div className="mt-10">
             {isSenpai ? (
-              <a
+              <Link
                 href="/dashboard"
                 className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-lg font-bold text-on-primary shadow-[var(--shadow-raised)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary-container hover:shadow-[var(--shadow-active)]"
               >
                 先輩ダッシュボードへ
-              </a>
+              </Link>
             ) : (
               <a
                 href="/chat"
@@ -86,11 +87,11 @@ function Home() {
                 質問をはじめる
               </a>
             )}
-            <p className="mt-4 text-center text-xs leading-5 text-on-surface-variant">
-              ※ 遷移先の画面（
-              {isSenpai ? "質問キュー・回答" : "質問フォーム"}
-              ）は次の Issue で実装予定です。
-            </p>
+            {!isSenpai && (
+              <p className="mt-4 text-center text-xs leading-5 text-on-surface-variant">
+                ※ 質問フォーム画面は次の Issue で実装予定です。
+              </p>
+            )}
           </div>
         </div>
       </main>

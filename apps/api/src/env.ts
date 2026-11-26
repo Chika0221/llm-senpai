@@ -23,3 +23,11 @@ export const WEB_ORIGIN = process.env.WEB_ORIGIN || "http://localhost:3000"
 // Cookie の属性制御。クロスオリジン運用時は SameSite=None; Secure が必要
 export const NODE_ENV = process.env.NODE_ENV || "development"
 export const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || undefined
+
+// --- 開発用: Discord 認証バイパス ---
+// true かつ 非本番のときのみ有効。Discord OAuth を介さず、後輩(KISO)/先輩(HATTEN) を
+// 選んでログインできるダミー認証を開放する（キュー画面等のUIをローカルで確認するため）。
+// 本番(NODE_ENV=production)では強制的に無効化し、絶対に認証を素通りさせない。
+export const DEV_AUTH_BYPASS =
+  NODE_ENV !== "production" &&
+  (process.env.DEV_AUTH_BYPASS || "").toLowerCase() === "true"

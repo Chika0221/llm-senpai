@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { setCookie, getCookie, deleteCookie } from 'hono/cookie';
-import { WEB_ORIGIN, NODE_ENV } from '../env.js';
+import { WEB_ORIGIN, NODE_ENV, DEV_AUTH_BYPASS } from '../env.js';
+import type { MemberRole } from '../auth/discordRoles.js';
 import {
   getAuthorizeUrl,
   exchangeCodeForToken,
@@ -22,6 +23,37 @@ const OAUTH_STATE_COOKIE = 'senpai_oauth_state';
 const isProd = NODE_ENV === 'production';
 
 export const authRouter = new Hono<{ Variables: AuthVariables }>();
+
+// フロント向けの認証設定。開発用バイパスが有効かをログイン画面が判定するのに使う。
+authRouter.get('/config', (c) => {
+  return c.json({ devBypass: DEV_AUTH_BYPASS });
+});
+
+// 開発用: Discord を介さずに役割を選んでログインする（DEV_AUTH_BYPASS 有効時のみ）。
+// 本番では env 側で DEV_AUTH_BYPASS が必ず false になるため、この経路は機能しない。
+authRouter.get('/dev/login', async (c) => {
+  if (!DEV_AUTH_BYPASS) {
+    return c.json(
+      { error: { message: '開発用ログインは無効です', type: 'not_found' } },
+      404
+    );
+  }
+
+  const roleParam = (c.req.query('role') || 'KISO').toUpperCase();
+  const role: MemberRole = roleParam === 'HATTEN' ? 'HATTEN' : 'KISO';
+
+  // 役割ごとに固定のダミーユーザー（DBには依存しない自己完結の JWT）
+  const displayName = role === 'HATTEN' ? '開発先輩（発展班）' : '開発後輩（基礎班）';
+  const token = await signSession({
+    sub: `dev-${role.toLowerCase()}`,
+    role,
+    displayName,
+  });
+  setSessionCookie(c, token);
+
+  console.warn(`⚠️ [DEV] Discord 認証をバイパスして ${role} でログインしました`);
+  return c.redirect(WEB_ORIGIN);
+});
 
 // ログイン開始: state を発行し Discord 認可画面へリダイレクト
 authRouter.get('/discord', (c) => {
