@@ -66,6 +66,12 @@ export async function fetchQueue(signal?: AbortSignal): Promise<QueueResponse> {
 
 // --- 回答画面（§5.2 / §8。Issue #3・#4） ---
 
+// コマンド系メッセージの危険度警告（§5.4）
+export type DangerInfo = {
+  isDangerous: boolean;
+  reasons: string[];
+};
+
 // 会話履歴の1メッセージ分（バックエンド MessageDTO と一致）
 export type SessionMessage = {
   id: string;
@@ -74,6 +80,7 @@ export type SessionMessage = {
   commandName: string | null;
   toolCallId: string | null;
   approvalStatus: "PENDING" | "APPROVED" | "REJECTED" | null;
+  danger: DangerInfo | null;
   createdAt: string;
 };
 
@@ -154,6 +161,26 @@ export async function replySession(
   if (!res.ok) await throwForStatus(res, "回答の送信に失敗しました");
   const data = (await res.json()) as { session: SessionDetail };
   return data.session;
+}
+
+// 後輩のシェルで実行させるコマンドの種別（§5.4）
+export type CommandShell = "bash" | "powershell";
+
+// コマンドを送信する（§5.2 コマンド送信 / §5.4）。
+// 後輩側は approvalStatus=PENDING の状態で受け取り、実行前に承認する。
+export async function sendCommand(
+  id: string,
+  command: string,
+  shell: CommandShell,
+): Promise<{ session: SessionDetail; danger: DangerInfo }> {
+  const res = await fetch(`${API_BASE_URL}/dashboard/sessions/${id}/command`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ command, shell }),
+  });
+  if (!res.ok) await throwForStatus(res, "コマンドの送信に失敗しました");
+  return (await res.json()) as { session: SessionDetail; danger: DangerInfo };
 }
 
 // 経過時間を「たった今 / n分前 / n時間前 / n日前」の相対表記にする（新着の体感用）
